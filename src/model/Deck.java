@@ -2,16 +2,19 @@ package model;
 
 import java.util.ArrayList;
 
+import model.Cards.CopperCard;
+import model.Cards.EstateCard;
+
 public class Deck {
 	ArrayList<Card> deck;
 	
 	public Deck(){
 		this.deck = new ArrayList<Card>();
 		for(int i = 0; i < 7; i++){
-			deck.add(new Card("Copper"));
+			deck.add(new CopperCard());
 		}
 		for(int i = 0; i < 3; i++){
-			deck.add(new Card("Estate"));
+			deck.add(new EstateCard());
 		}
 		this.shuffle();
 	}

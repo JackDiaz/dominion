@@ -2,7 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
-import model.Card.CardType;
+import model.CardType;
 
 public class Player {
 	Deck deck;

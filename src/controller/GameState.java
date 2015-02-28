@@ -7,6 +7,7 @@ import model.Supply;
 
 public class GameState {
 	ArrayList<Player> players;
+	ArrayList<Controller> controllers;
 	int first;
 	Supply sup;
 	int numPlayers;

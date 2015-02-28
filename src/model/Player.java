@@ -2,7 +2,6 @@ package model;
 
 import java.util.ArrayList;
 
-import model.CardType;
 
 public class Player {
 	Deck deck;
@@ -51,7 +50,7 @@ public class Player {
 	
 	public boolean hasActionCard(){
 		for(Card c : hand){
-			if(c.type.equals(CardType.Action)){
+			if(c instanceof Action){
 				return true;
 			}
 		}

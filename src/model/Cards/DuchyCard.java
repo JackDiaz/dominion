@@ -2,14 +2,14 @@ package model.Cards;
 
 import model.Card;
 
-public class EstateCard extends Card{
+public class DuchyCard extends Card{
 	
 	int cost;
 	int vp;
 	
-	public EstateCard(){
-		this.cost = 2;
-		this.vp = 1;
+	public DuchyCard(){
+		this.cost = 5;
+		this.vp = 3;
 	}
 	
 	public int getVP(){

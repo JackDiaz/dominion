@@ -3,14 +3,13 @@ package model.Cards;
 import model.Card;
 import model.Treasure;
 
-public class CopperCard extends Card implements Treasure{
-	
+public class GoldCard extends Card implements Treasure{
 	int cost;
 	int val;
 	
-	public CopperCard(){
-		this.cost = 0;
-		this.val = 1;
+	public GoldCard(){
+		this.cost = 6;
+		this.val = 3;
 	}
 	
 	public int getValue(){

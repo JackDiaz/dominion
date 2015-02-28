@@ -8,6 +8,5 @@ public class Card {
 	int value;
 	int victoryPoints;*/
 	
-	CardType type;
 	
 }

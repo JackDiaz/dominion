@@ -2,7 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
-import model.Cards.Interfaces.Card;
+import model.cards.interfaces.Card;
 import model.cards.CopperCard;
 import model.cards.EstateCard;
 

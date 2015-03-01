@@ -2,9 +2,9 @@ package model;
 
 import java.util.ArrayList;
 
-import model.Cards.Interfaces.Action;
-import model.Cards.Interfaces.Card;
-import model.Cards.Interfaces.Treasure;
+import model.cards.interfaces.Action;
+import model.cards.interfaces.Card;
+import model.cards.interfaces.Treasure;
 
 
 public class Player {

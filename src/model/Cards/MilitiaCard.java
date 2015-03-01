@@ -1,13 +1,10 @@
 package model.cards;
 
-<<<<<<< HEAD
-import model.Action;
-import model.Card;
+
+
 import model.GameState;
-=======
-import model.Cards.Interfaces.Action;
-import model.Cards.Interfaces.Card;
->>>>>>> 7df14e1a459ef7bdaf362361edf8fc2349d83ee2
+import model.cards.interfaces.Action;
+import model.cards.interfaces.Card;
 import controller.Controller;
 
 public class MilitiaCard implements Card, Action{

@@ -1,4 +1,6 @@
-package model.Cards.Interfaces;
+package model.cards.interfaces;
+
+import model.GameState;
 
 
 public interface Action extends Card{

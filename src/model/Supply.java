@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import model.Cards.Interfaces.Card;
+import model.cards.interfaces.Card;
 
 public class Supply {
 

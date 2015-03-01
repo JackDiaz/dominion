@@ -1,4 +1,4 @@
-package model.Cards.Interfaces;
+package model.cards.interfaces;
 
 public interface Card {
 	/*String name;

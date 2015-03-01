@@ -2,24 +2,14 @@ package model;
 
 import java.util.ArrayList;
 
-<<<<<<< HEAD:src/model/GameEngine.java
-public class GameEngine {
-=======
 import model.Player;
 import model.Supply;
-import model.Cards.Interfaces.Action;
-import model.Cards.Interfaces.Card;
-import model.Cards.Interfaces.Treasure;
+import model.cards.interfaces.Action;
+import model.cards.interfaces.Card;
+import model.cards.interfaces.Treasure;
 import controller.Controller;
 
-public class GameState {
-	ArrayList<Controller> controllers;
-	int first;
-	Supply sup;
-	int numPlayers;
-	Controller currentPlayer;
-	ArrayList<Card> trashPile;
->>>>>>> 7df14e1a459ef7bdaf362361edf8fc2349d83ee2:src/controller/GameState.java
+public class GameEngine {
 	
 	GameState gs;
 
@@ -30,17 +20,18 @@ public class GameState {
 		ArrayList<Action> actList;
 		ArrayList<Treasure> treList;
 		ArrayList<Card> buyList;
+		Controller currPlayer = gs.getCurrentPlayer();
 		// action phase
 		while(actions > 0){
-			if(gs.getCurrentPlayer().hasActionCard()){
-				actList = currentPlayer.actionList();
+			if(currPlayer.hasActionCard()){
+				actList = gs.getCurrentPlayer().actionList();
 				if(actList == null){
 					actions = 0;
 				}else{
 					for(Action a : actList){
-						if(actions > 0 && currentPlayer.has(a)){
-							a.takeAction(this,actions,buys,cash);
-							currentPlayer.play(a);
+						if(actions > 0 && currPlayer.has(a)){
+							a.takeAction(gs,actions,buys,cash);
+							currPlayer.play(a);
 							actions--;
 						}
 					}
@@ -49,26 +40,26 @@ public class GameState {
 		}
 		// buy phase
 		while(buys > 0){
-			if(currentPlayer.hasTreasureCard()){
-				treList = currentPlayer.treasureList();
+			if(currPlayer.hasTreasureCard()){
+				treList = currPlayer.treasureList();
 				if(treList == null){
 
 				}else{
 					for(Treasure t : treList){
-						if(currentPlayer.has(t)){
+						if(currPlayer.has(t)){
 							cash += t.getValue();
 						}
 					}
 				}
 			}
-			buyList = currentPlayer.buyList(cash);
+			buyList = currPlayer.buyList(cash);
 			if(buyList.size() <= buys){
 				for(Card card : buyList){
 					int cost = card.getCost();
-					if(sup.has(card) && cost <= cash){
+					if(gs.sup.has(card) && cost <= cash){
 						buys--;
 						cash -= cost;
-						currentPlayer.addToDiscard(card);
+						currPlayer.addToDiscard(card);
 					}
 				}
 
@@ -84,7 +75,7 @@ public class GameState {
 
 
 		// clean up phase
-		currentPlayer.cleanUp();
+		currPlayer.cleanUp();
 
 
 		/*c.discardHand();
@@ -97,15 +88,15 @@ public class GameState {
 
 	public void start(){
 		boolean gameIsOver = false;
-		int cPNumber = first;
-		currentPlayer = controllers.get(cPNumber);
+		int cPNumber = gs.first;
+		Controller currentPlayer = gs.controllers.get(cPNumber);
 		while(!gameIsOver){
 			turn();
-			if(sup.endGame()){
+			if(gs.sup.endGame()){
 				gameIsOver = true;
 			}else{
-				cPNumber = ((cPNumber + 1) % numPlayers);
-				currentPlayer = controllers.get(cPNumber);
+				cPNumber = ((cPNumber + 1) % gs.numPlayers);
+				currentPlayer = gs.controllers.get(cPNumber);
 			}
 		}
 	}
@@ -116,7 +107,8 @@ public class GameState {
 		System.out.println("Would you like to start a new game?");
 		while(newGame){
 			GameState game = new GameState();
-			game.start();
+			GameEngine ge = new GameEngine();
+			ge.start();
 			System.out.println("Would you like to start a new game?");
 		}
 	}

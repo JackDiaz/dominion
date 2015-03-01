@@ -2,7 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
-import model.Cards.Interfaces.Card;
+import model.cards.interfaces.Card;
 
 public class Discard {
 	

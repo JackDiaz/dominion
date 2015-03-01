@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
+import model.cards.interfaces.Card;
 import controller.Controller;
 import controller.Human;
 

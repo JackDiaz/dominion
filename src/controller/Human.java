@@ -3,9 +3,9 @@ package controller;
 import java.util.ArrayList;
 
 import model.Player;
-import model.Cards.Interfaces.Action;
-import model.Cards.Interfaces.Card;
-import model.Cards.Interfaces.Treasure;
+import model.cards.interfaces.Action;
+import model.cards.interfaces.Card;
+import model.cards.interfaces.Treasure;
 import model.cards.ChapelCard;
 
 public class Human implements Controller{
@@ -99,4 +99,6 @@ public class Human implements Controller{
 	public void discardDownTo(int x){
 		
 	}
+
+	
 }

@@ -1,4 +1,5 @@
-package model;
+package model.Cards.Interfaces;
+
 
 public interface Victory extends Card{
 

@@ -2,6 +2,10 @@ package model;
 
 import java.util.ArrayList;
 
+import model.Cards.Interfaces.Action;
+import model.Cards.Interfaces.Card;
+import model.Cards.Interfaces.Treasure;
+
 
 public class Player {
 	Deck deck;

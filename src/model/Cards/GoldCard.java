@@ -1,7 +1,7 @@
 package model.cards;
 
-import model.Card;
-import model.Treasure;
+import model.Cards.Interfaces.Card;
+import model.Cards.Interfaces.Treasure;
 
 public class GoldCard implements Card, Treasure{
 	int cost;

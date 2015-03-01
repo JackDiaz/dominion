@@ -2,7 +2,24 @@ package model;
 
 import java.util.ArrayList;
 
+<<<<<<< HEAD:src/model/GameEngine.java
 public class GameEngine {
+=======
+import model.Player;
+import model.Supply;
+import model.Cards.Interfaces.Action;
+import model.Cards.Interfaces.Card;
+import model.Cards.Interfaces.Treasure;
+import controller.Controller;
+
+public class GameState {
+	ArrayList<Controller> controllers;
+	int first;
+	Supply sup;
+	int numPlayers;
+	Controller currentPlayer;
+	ArrayList<Card> trashPile;
+>>>>>>> 7df14e1a459ef7bdaf362361edf8fc2349d83ee2:src/controller/GameState.java
 	
 	GameState gs;
 

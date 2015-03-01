@@ -1,7 +1,7 @@
 package model.cards;
 
-import model.Card;
-import model.Victory;
+import model.Cards.Interfaces.Card;
+import model.Cards.Interfaces.Victory;
 
 public class ProvinceCard implements Card, Victory{
 	

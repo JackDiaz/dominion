@@ -1,4 +1,4 @@
-package model;
+package model.Cards.Interfaces;
 
 
 public interface Action extends Card{

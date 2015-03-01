@@ -1,4 +1,4 @@
-package model;
+package model.Cards.Interfaces;
 
 import controller.GameState;
 

@@ -2,9 +2,9 @@ package controller;
 
 import java.util.ArrayList;
 
-import model.Action;
-import model.Card;
-import model.Treasure;
+import model.Cards.Interfaces.Action;
+import model.Cards.Interfaces.Card;
+import model.Cards.Interfaces.Treasure;
 
 public interface Controller {
 	

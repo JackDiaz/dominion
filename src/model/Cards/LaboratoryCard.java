@@ -1,7 +1,7 @@
 package model.cards;
 
-import model.Action;
-import model.Card;
+import model.Cards.Interfaces.Action;
+import model.Cards.Interfaces.Card;
 import controller.Controller;
 import controller.GameState;
 

@@ -2,10 +2,10 @@ package controller;
 
 import java.util.ArrayList;
 
-import model.Action;
-import model.Card;
 import model.Player;
-import model.Treasure;
+import model.Cards.Interfaces.Action;
+import model.Cards.Interfaces.Card;
+import model.Cards.Interfaces.Treasure;
 import model.cards.ChapelCard;
 
 public class Human implements Controller{

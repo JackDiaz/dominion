@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import controller.Controller;
 import controller.GameState;
-import model.Action;
-import model.Card;
+import model.Cards.Interfaces.Action;
+import model.Cards.Interfaces.Card;
 
 public class ChapelCard implements Card, Action{
 

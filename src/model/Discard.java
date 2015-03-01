@@ -2,6 +2,8 @@ package model;
 
 import java.util.ArrayList;
 
+import model.Cards.Interfaces.Card;
+
 public class Discard {
 	
 	ArrayList<Card> dis;

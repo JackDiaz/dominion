@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import model.Cards.Interfaces.Card;
+
 public class Supply {
 
 	HashMap<String,Integer> sup;

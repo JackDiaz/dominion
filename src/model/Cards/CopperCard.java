@@ -17,6 +17,8 @@ public class CopperCard implements Card, Treasure{
 		return val;
 	}
 	
-
+	public int getCost(){
+		return cost;
+	}
 	
 }

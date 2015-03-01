@@ -36,6 +36,14 @@ public class Deck {
 		return ret;
 	}
 	
+	public ArrayList<Card> draw(int x){
+		ArrayList<Card> toDraw = new ArrayList<Card>();
+		for(int i = 0; i < x; i++){
+			toDraw.add(this.draw());
+		}
+		return toDraw;
+	}
+	
 	public void addDiscardPile(Discard dis){
 		dis.shuffle();
 		deck.addAll(dis.get());

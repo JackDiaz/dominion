@@ -8,6 +8,7 @@ public interface Card {
 	int value;
 	int victoryPoints;*/
 	
+	public int getCost();
 	
 	
 }

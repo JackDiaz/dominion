@@ -3,8 +3,10 @@ package controller;
 import java.util.ArrayList;
 
 import model.Action;
+import model.Card;
 import model.Player;
 import model.Supply;
+import model.Treasure;
 import controller.Controller;
 
 public class GameState {
@@ -12,7 +14,9 @@ public class GameState {
 	int first;
 	Supply sup;
 	int numPlayers;
-
+	Controller currentPlayer;
+	ArrayList<Card> trashPile;
+	
 	public GameState(){
 		this.controllers = new ArrayList<Controller>();
 		this.controllers.add(new Human(new Player()));
@@ -34,52 +38,91 @@ public class GameState {
 		}
 		this.sup = new Supply();
 	}
-	*/
+	 */
 
-	public void turn(Controller c){
-		int actions = 0;
+	public void turn(){
+		int actions = 1;
 		int buys = 1;
 		int cash = 0;
 		ArrayList<Action> actList;
+		ArrayList<Treasure> treList;
+		ArrayList<Card> buyList;
 		// action phase
 		while(actions > 0){
-			if(c.hasActionCard()){
-				actList = c.actionList();
-				for(Action a : actList){
-					if(actions > 0 && c.has(a)){
-						a.takeAction(controllers,actions,buys,cash);
-						c.play(a);
+			if(currentPlayer.hasActionCard()){
+				actList = currentPlayer.actionList();
+				if(actList == null){
+					actions = 0;
+				}else{
+					for(Action a : actList){
+						if(actions > 0 && currentPlayer.has(a)){
+							a.takeAction(this,actions,buys,cash);
+							currentPlayer.play(a);
+							actions--;
+						}
 					}
 				}
 			}
 		}
 		// buy phase
 		while(buys > 0){
+			if(currentPlayer.hasTreasureCard()){
+				treList = currentPlayer.treasureList();
+				if(treList == null){
+					
+				}else{
+					for(Treasure t : treList){
+						if(currentPlayer.has(t)){
+							cash += t.getValue();
+						}
+					}
+				}
+			}
+			buyList = currentPlayer.buyList(cash);
+			if(buyList.size() <= buys){
+				for(Card card : buyList){
+					int cost = card.getCost();
+					if(sup.has(card) && cost <= cash){
+						buys--;
+						cash -= cost;
+						currentPlayer.addToDiscard(card);
+					}
+				}
 			
+			}
+			
+			
+			
+			
+			
+			
+
 		}
-		
-		
+
+
 		// clean up phase
-		c.cleanUp();
-		
-		
+		currentPlayer.cleanUp();
+
+
 		/*c.discardHand();
 		c.discardCardsInPlay();
-		
+
 		// draw phase
 		c.drawHand();
-		*/
+		 */
 	}
-	
+
 	public void start(){
 		boolean gameIsOver = false;
-		int currentPlayer = first;
+		int cPNumber = first;
+		currentPlayer = controllers.get(cPNumber);
 		while(!gameIsOver){
-			turn(controllers.get(currentPlayer));
+			turn();
 			if(sup.endGame()){
 				gameIsOver = true;
 			}else{
-				currentPlayer = (currentPlayer + 1) % numPlayers;
+				cPNumber = ((cPNumber + 1) % numPlayers);
+				currentPlayer = controllers.get(cPNumber);
 			}
 		}
 	}
@@ -93,5 +136,17 @@ public class GameState {
 			game.start();
 			System.out.println("Would you like to start a new game?");
 		}
+	}
+	
+	public Controller getCurrentPlayer(){
+		return currentPlayer;
+	}
+	
+	public ArrayList<Card> getTrashPile(){
+		return trashPile;
+	}
+	
+	public ArrayList<Controller> getControllers(){
+		return controllers;
 	}
 }

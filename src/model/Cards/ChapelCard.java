@@ -14,15 +14,15 @@ public class ChapelCard implements Card, Action{
 	public ChapelCard(){
 		this.cost = 2;
 	}
-	
-	public boolean takeAction(GameState g){
-		return true;
+
+	public void takeAction(GameState g, int a, int b, int c) {
+		Controller currentPlayer = g.getCurrentPlayer();
+		ArrayList<Card> toTrash = currentPlayer.trashDecision(4);
+		currentPlayer.removeCardsFromHand(toTrash);
+		g.getTrashPile().addAll(toTrash);
 	}
-
-	public void takeAction(ArrayList<Controller> cont, int a, int b, int c) {
-		a++;
-	}
 	
-
-
+	public int getCost(){
+		return cost;
+	}
 }

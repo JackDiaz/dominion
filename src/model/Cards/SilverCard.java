@@ -15,4 +15,7 @@ public class SilverCard implements Card, Treasure{
 	public int getValue(){
 		return val;
 	}
+	public int getCost(){
+		return cost;
+	}
 }

@@ -16,4 +16,8 @@ public class DuchyCard implements Card, Victory{
 	public int getVP(){
 		return vp;
 	}
+	
+	public int getCost(){
+		return cost;
+	}
 }

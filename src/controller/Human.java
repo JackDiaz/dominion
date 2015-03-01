@@ -19,23 +19,26 @@ public class Human implements Controller{
 	public ArrayList<Action> actionList(){
 
 		System.out.println(p.hand.toString());
+		System.out.println("What would you like to play?");
+		
 		return null;
 
 	}
 
 	public ArrayList<Card> buyList(int cash){
+		// always trying to buy chapel
 		ArrayList<Card> a = new ArrayList<Card>();
 		a.add(new ChapelCard());
 		return a;
 
 	}
 
-	public ArrayList<Treasure> treasure(){
+	public ArrayList<Treasure> treasureList(){
 		return null;
 
 	}
 
-	public Card gain(String prop, int value){
+	public Card gainCard(String prop, int value){
 
 		return null;
 	}
@@ -69,4 +72,31 @@ public class Human implements Controller{
 		p.play(c);
 	}
 
+	public void addToDiscard(Card c){
+		p.addToDiscard(c);
+	}
+	
+	public boolean hasTreasureCard(){
+		return p.hasTreasureCard();
+	}
+	
+	public ArrayList<Card> trashDecision(int num){
+		return null;
+	}
+	
+	public void removeCardsFromHand(ArrayList<Card> toRemove){
+		p.removeCardsFromHand(toRemove);
+	}
+	
+	public void draw(){
+		p.draw();
+	}
+	
+	public void draw(int x){
+		p.draw(x);
+	}
+	
+	public void discardDownTo(int x){
+		
+	}
 }

@@ -26,7 +26,7 @@ public class Player {
 			dis.add(hand.get(i));
 		}
 	}
-	
+
 	public void discardCardsInPlay(){
 		for(Card c : inPlay){
 			dis.add(c);
@@ -48,6 +48,12 @@ public class Player {
 		hand.add(deck.draw());
 	}
 	
+	public void draw(int x){
+		for(int i = 0; i < x; i++){
+			this.draw();
+		}
+	}
+
 	public boolean hasActionCard(){
 		for(Card c : hand){
 			if(c instanceof Action){
@@ -56,7 +62,7 @@ public class Player {
 		}
 		return false;
 	}
-	
+
 	public boolean has(Card c){
 		for(Card h : hand){
 			if(h.equals(c)){
@@ -65,11 +71,32 @@ public class Player {
 		}
 		return false;
 	}
-	
+
 	public void play(Card c){
 		if(this.has(c)){
 			hand.remove(c);
 			inPlay.add(c);
+		}
+	}
+
+	public void addToDiscard(Card c){
+		dis.add(c);
+	}
+
+	public boolean hasTreasureCard(){
+		for(Card c : hand){
+			if(c instanceof Treasure){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void removeCardsFromHand(ArrayList<Card> toRemove){
+		for(Card c : toRemove){
+			if(this.has(c)){
+				hand.remove(c);
+			}
 		}
 	}
 }

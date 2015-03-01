@@ -65,4 +65,11 @@ public class Supply {
 		}
 		return false;
 	}
+	
+	public boolean has(Card c){
+		if(sup.get(c) > 0){
+			return true;
+		}
+		return false;
+	}
 }

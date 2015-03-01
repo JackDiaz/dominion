@@ -2,8 +2,8 @@ package model.cards;
 
 import model.Action;
 import model.Card;
+import model.GameState;
 import controller.Controller;
-import controller.GameState;
 
 public class MilitiaCard implements Card, Action{
 

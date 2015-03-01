@@ -1,44 +1,10 @@
-package controller;
+package model;
 
 import java.util.ArrayList;
 
-import model.Action;
-import model.Card;
-import model.Player;
-import model.Supply;
-import model.Treasure;
-import controller.Controller;
-
-public class GameState {
-	ArrayList<Controller> controllers;
-	int first;
-	Supply sup;
-	int numPlayers;
-	Controller currentPlayer;
-	ArrayList<Card> trashPile;
+public class GameEngine {
 	
-	public GameState(){
-		this.controllers = new ArrayList<Controller>();
-		this.controllers.add(new Human(new Player()));
-		this.controllers.add(new Human(new Player()));
-		this.sup = new Supply();
-		if(Math.random() < .5){
-			this.first = 1;
-		}else{
-			this.first = 2;
-		}
-	}
-
-	/*
-	public GameState(int numPlayers){
-		this.numPlayers = numPlayers;
-		players = new ArrayList<Player>();
-		for(int i = 0; i < numPlayers; i++){
-			players.add(new Player());
-		}
-		this.sup = new Supply();
-	}
-	 */
+	GameState gs;
 
 	public void turn(){
 		int actions = 1;
@@ -49,7 +15,7 @@ public class GameState {
 		ArrayList<Card> buyList;
 		// action phase
 		while(actions > 0){
-			if(currentPlayer.hasActionCard()){
+			if(gs.getCurrentPlayer().hasActionCard()){
 				actList = currentPlayer.actionList();
 				if(actList == null){
 					actions = 0;
@@ -69,7 +35,7 @@ public class GameState {
 			if(currentPlayer.hasTreasureCard()){
 				treList = currentPlayer.treasureList();
 				if(treList == null){
-					
+
 				}else{
 					for(Treasure t : treList){
 						if(currentPlayer.has(t)){
@@ -88,14 +54,14 @@ public class GameState {
 						currentPlayer.addToDiscard(card);
 					}
 				}
-			
+
 			}
-			
-			
-			
-			
-			
-			
+
+
+
+
+
+
 
 		}
 
@@ -136,17 +102,5 @@ public class GameState {
 			game.start();
 			System.out.println("Would you like to start a new game?");
 		}
-	}
-	
-	public Controller getCurrentPlayer(){
-		return currentPlayer;
-	}
-	
-	public ArrayList<Card> getTrashPile(){
-		return trashPile;
-	}
-	
-	public ArrayList<Controller> getControllers(){
-		return controllers;
 	}
 }

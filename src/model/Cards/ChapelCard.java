@@ -3,9 +3,9 @@ package model.cards;
 import java.util.ArrayList;
 
 import controller.Controller;
-import controller.GameState;
 import model.Action;
 import model.Card;
+import model.GameState;
 
 public class ChapelCard implements Card, Action{
 

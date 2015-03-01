@@ -1,6 +1,5 @@
 package model;
 
-import controller.GameState;
 
 public interface Action extends Card{
 

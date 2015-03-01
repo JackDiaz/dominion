@@ -1,9 +1,9 @@
-package model.Cards;
+package model.cards;
 
 import model.Card;
 import model.Treasure;
 
-public class CopperCard extends Card implements Treasure{
+public class CopperCard implements Card, Treasure{
 	
 	int cost;
 	int val;
@@ -16,4 +16,7 @@ public class CopperCard extends Card implements Treasure{
 	public int getValue(){
 		return val;
 	}
+	
+
+	
 }

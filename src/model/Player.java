@@ -56,4 +56,20 @@ public class Player {
 		}
 		return false;
 	}
+	
+	public boolean has(Card c){
+		for(Card h : hand){
+			if(h.equals(c)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public void play(Card c){
+		if(this.has(c)){
+			hand.remove(c);
+			inPlay.add(c);
+		}
+	}
 }

@@ -2,8 +2,8 @@ package model;
 
 import java.util.ArrayList;
 
-import model.Cards.CopperCard;
-import model.Cards.EstateCard;
+import model.cards.CopperCard;
+import model.cards.EstateCard;
 
 public class Deck {
 	ArrayList<Card> deck;

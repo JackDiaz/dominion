@@ -1,8 +1,10 @@
 package model;
 
-import controller.GameState;
+import java.util.ArrayList;
 
-public interface Action {
+import controller.Controller;
 
-	public boolean takeAction(GameState g);
+public interface Action extends Card{
+
+	public void takeAction(ArrayList<Controller> cont, int a, int b, int c);
 }

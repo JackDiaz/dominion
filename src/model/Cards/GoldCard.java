@@ -1,9 +1,9 @@
-package model.Cards;
+package model.cards;
 
 import model.Card;
 import model.Treasure;
 
-public class GoldCard extends Card implements Treasure{
+public class GoldCard implements Card, Treasure{
 	int cost;
 	int val;
 	

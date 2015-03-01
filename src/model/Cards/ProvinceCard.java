@@ -1,8 +1,9 @@
-package model.Cards;
+package model.cards;
 
 import model.Card;
+import model.Victory;
 
-public class ProvinceCard extends Card{
+public class ProvinceCard implements Card, Victory{
 	
 	int cost;
 	int vp;

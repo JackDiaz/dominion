@@ -1,8 +1,9 @@
-package model.Cards;
+package model.cards;
 
 import model.Card;
+import model.Victory;
 
-public class DuchyCard extends Card{
+public class DuchyCard implements Card, Victory{
 	
 	int cost;
 	int vp;

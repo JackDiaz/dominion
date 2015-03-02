@@ -7,10 +7,18 @@ public class EstateCard implements Card, Victory{
 	
 	int cost;
 	int vp;
+	private static EstateCard instance;
 	
-	public EstateCard(){
+	private EstateCard(){
 		this.cost = 2;
 		this.vp = 1;
+	}
+	
+	public static EstateCard getInstance(){
+		if(instance == null){
+			instance = new EstateCard();
+		}
+		return instance;
 	}
 	
 	public int getVP(){

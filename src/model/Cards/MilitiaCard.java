@@ -10,20 +10,25 @@ import controller.Controller;
 public class MilitiaCard implements Card, Action{
 
 	int cost;
+	private static MilitiaCard instance;
 
-	public MilitiaCard(){
+	private MilitiaCard(){
 		this.cost = 4;
+	}
+	
+	
+	public static MilitiaCard getInstance(){
+		if(instance == null){
+			instance = new MilitiaCard();
+		}
+		return instance;
 	}
 
 	public void takeAction(GameState g, int a, int b, int c) {
-		Controller currentPlayer = g.getCurrentPlayer();
+		Controller currController = g.getCurrentController();
 		for(Controller cont : g.getControllers()){
-			if(!cont.equals(currentPlayer)){
+			if(!cont.equals(currController)){
 				cont.discardDownTo(3);
-				// =(
-				// not quite sure what to do with that
-				// cats cats cats
-				// Children: always remember to program sober
 			}
 		}
 		c += 2;
@@ -31,6 +36,10 @@ public class MilitiaCard implements Card, Action{
 
 	public int getCost(){
 		return cost;
+	}
+	
+	public int plusActions(){
+		return 0;
 	}
 
 }

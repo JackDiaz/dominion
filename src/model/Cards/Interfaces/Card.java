@@ -10,4 +10,5 @@ public interface Card {
 	
 	public int getCost();
 	
+	
 }

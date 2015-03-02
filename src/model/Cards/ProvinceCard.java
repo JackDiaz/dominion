@@ -7,19 +7,10 @@ public class ProvinceCard implements Card, Victory{
 	
 	int cost;
 	int vp;
-	private static ProvinceCard instance = null;
 	
-	private ProvinceCard(){
+	public ProvinceCard(){
 		this.cost = 8;
 		this.vp = 6;
-	}
-	
-	
-	public static ProvinceCard getInstance(){
-		if(instance == null){
-			instance = new ProvinceCard();
-		}
-		return instance;
 	}
 	
 	public int getVP(){

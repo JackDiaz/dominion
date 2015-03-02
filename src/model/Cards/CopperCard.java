@@ -7,19 +7,10 @@ public class CopperCard implements Card, Treasure{
 	
 	int cost;
 	int val;
-	private static CopperCard instance;
 	
-	private CopperCard(){
+	public CopperCard(){
 		this.cost = 0;
 		this.val = 1;
-	}
-	
-	
-	public static CopperCard getInstance(){
-		if(instance == null){
-			instance = new CopperCard();
-		}
-		return instance;
 	}
 	
 	public int getValue(){

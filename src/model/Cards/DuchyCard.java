@@ -7,19 +7,10 @@ public class DuchyCard implements Card, Victory{
 	
 	int cost;
 	int vp;
-	private static DuchyCard instance;
 	
-	private DuchyCard(){
+	public DuchyCard(){
 		this.cost = 5;
 		this.vp = 3;
-	}
-	
-	
-	public static DuchyCard getInstance(){
-		if(instance == null){
-			instance = new DuchyCard();
-		}
-		return instance;
 	}
 	
 	public int getVP(){

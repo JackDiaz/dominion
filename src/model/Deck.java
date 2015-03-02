@@ -12,17 +12,17 @@ public class Deck {
 	public Deck(){
 		this.deck = new ArrayList<Card>();
 		for(int i = 0; i < 7; i++){
-			deck.add(CopperCard.getInstance());
+			deck.add(new CopperCard());
 		}
 		for(int i = 0; i < 3; i++){
-			deck.add(EstateCard.getInstance());
+			deck.add(new EstateCard());
 		}
 		this.shuffle();
 	}
 	
 	public void shuffle(){
 		ArrayList<Card> shuffled = new ArrayList<Card>();
-		for(int i = deck.size(); i > 0; i--){
+		for(int i = 0; i < deck.size(); i++){
 			double random = Math.random()*deck.size();
 			int slot = (int)Math.floor(random);
 			shuffled.add(deck.get(slot));

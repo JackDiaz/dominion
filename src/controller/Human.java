@@ -18,6 +18,9 @@ public class Human implements Controller{
 
 	public ArrayList<Action> actionList(){
 
+		System.out.println(p.hand.toString());
+		System.out.println("What would you like to play?");
+		
 		return null;
 
 	}
@@ -25,7 +28,7 @@ public class Human implements Controller{
 	public ArrayList<Card> buyList(int cash){
 		// always trying to buy chapel
 		ArrayList<Card> a = new ArrayList<Card>();
-		a.add(ChapelCard.getInstance());
+		a.add(new ChapelCard());
 		return a;
 
 	}
@@ -40,25 +43,62 @@ public class Human implements Controller{
 		return null;
 	}
 
+	public boolean hasActionCard() {
+		return p.hasActionCard();
+	}
 
+	public void discardHand() {
+		p.discardHand();
+	}
 
+	public void discardCardsInPlay() {
+		p.discardCardsInPlay();
+	}
+
+	public void drawHand() {
+		p.drawHand();
+	}
+	public void cleanUp() {
+		p.discardHand();
+		p.discardCardsInPlay();
+		p.drawHand();
+	}
+
+	public boolean has(Card c) {
+		return p.has(c);
+	}
+
+	public void play(Card c) {
+		p.play(c);
+	}
+
+	public void addToDiscard(Card c){
+		p.addToDiscard(c);
+	}
+	
+	public boolean hasTreasureCard(){
+		return p.hasTreasureCard();
+	}
+	
 	public ArrayList<Card> trashDecision(int num){
 		return null;
 	}
-
-
-
-	public void discardDownTo(int x){
-
-	}
-
-	@Override
-	public ArrayList<Action> actionList(int numActions) {
-		// TODO Auto-generated method stub
-		return null;
+	
+	public void removeCardsFromHand(ArrayList<Card> toRemove){
+		p.removeCardsFromHand(toRemove);
 	}
 	
+	public void draw(){
+		p.draw();
+	}
+	
+	public void draw(int x){
+		p.draw(x);
+	}
+	
+	public void discardDownTo(int x){
+		
+	}
 
-
-
+	
 }

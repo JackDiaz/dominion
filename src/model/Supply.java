@@ -3,41 +3,36 @@ package model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import model.cards.CopperCard;
-import model.cards.DuchyCard;
-import model.cards.EstateCard;
-import model.cards.GoldCard;
-import model.cards.ProvinceCard;
-import model.cards.SilverCard;
 import model.cards.interfaces.Card;
 
 public class Supply {
 
-	HashMap<Card,Integer> sup;
+	HashMap<String,Integer> sup;
 
 	public Supply(){ // list of strings for kingdom cards
-		this.sup = new HashMap<Card,Integer>();
+		this.sup = new HashMap<String,Integer>();
 		// for two player games
 		// values should change for more players
-		sup.put(EstateCard.getInstance(),8);
-		sup.put(DuchyCard.getInstance(),8);
-		sup.put(ProvinceCard.getInstance(),8);
-		sup.put(CopperCard.getInstance(),46);
-		sup.put(SilverCard.getInstance(),40);
-		sup.put(GoldCard.getInstance(),30);
-		//sup.put(CurseCard.getInstance(),10);
+		sup.put("Estate",8);
+		sup.put("Duchy",8);
+		sup.put("Province",8);
+		sup.put("Copper",46);
+		sup.put("Silver",40);
+		sup.put("Gold",30);
+		sup.put("Curse",10);
 	}
 
-	public Supply(ArrayList<Card> cards){ // list of strings for kingdom cards
-		this.sup = new HashMap<Card,Integer>();
+	public Supply(ArrayList<String> cards){ // list of strings for kingdom cards
+		this.sup = new HashMap<String,Integer>();
 		// for two player games
 		// values should change for more players
-		sup.put(EstateCard.getInstance(),8);
-		sup.put(DuchyCard.getInstance(),8);
-		sup.put(ProvinceCard.getInstance(),8);
-		sup.put(CopperCard.getInstance(),46);
-		sup.put(SilverCard.getInstance(),40);
-		sup.put(GoldCard.getInstance(),30);
+		sup.put("Estate",8);
+		sup.put("Duchy",8);
+		sup.put("Province",8);
+		sup.put("Copper",46);
+		sup.put("Silver",40);
+		sup.put("Gold",30);
+		sup.put("Curse",10);
 		for(int i = 0; i < cards.size(); i++){
 			sup.put(cards.get(i), 10);
 			// number added will have to change when non-action cards are added
@@ -67,7 +62,7 @@ public class Supply {
 	}
 
 	public boolean noProvinces(){
-		if(this.sup.get(ProvinceCard.getInstance()) == 0){
+		if(this.sup.get("Province") == 0){
 			return true;
 		}
 		return false;

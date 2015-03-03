@@ -18,6 +18,7 @@ public class Deck {
 			deck.add(EstateCard.getInstance());
 		}
 		this.shuffle();
+		// adding this comment
 	}
 	
 	public void shuffle(){

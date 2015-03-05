@@ -3,6 +3,7 @@ package model.cards;
 
 import model.GameState;
 import model.Player;
+import model.Turn;
 import model.cards.interfaces.Action;
 import model.cards.interfaces.Card;
 
@@ -25,10 +26,10 @@ public class LaboratoryCard implements Card, Action{
 		return instance;
 	}
 
-	public void takeAction(GameState g, int a, int b, int c) {
+	public void takeAction(GameState g, Turn t) {
 		Player currentPlayer = g.getCurrentPlayer();
 		currentPlayer.draw(2);
-		a += 1;
+		t.addActions(1);
 	}
 
 	public int getCost(){

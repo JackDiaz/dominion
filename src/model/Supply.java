@@ -15,7 +15,7 @@ public class Supply {
 
 	HashMap<Card,Integer> sup;
 
-	public Supply(){ // list of strings for kingdom cards
+	public Supply(){ 
 		this.sup = new HashMap<Card,Integer>();
 		// for two player games
 		// values should change for more players
@@ -28,7 +28,7 @@ public class Supply {
 		//sup.put(CurseCard.getInstance(),10);
 	}
 
-	public Supply(ArrayList<Card> cards){ // list of strings for kingdom cards
+	public Supply(ArrayList<Card> cards){ // list of kingdom cards
 		this.sup = new HashMap<Card,Integer>();
 		// for two player games
 		// values should change for more players
@@ -38,6 +38,8 @@ public class Supply {
 		sup.put(CopperCard.getInstance(),46);
 		sup.put(SilverCard.getInstance(),40);
 		sup.put(GoldCard.getInstance(),30);
+		//sup.put(CurseCard.getInstance(),10);
+
 		for(int i = 0; i < cards.size(); i++){
 			sup.put(cards.get(i), 10);
 			// number added will have to change when non-action cards are added

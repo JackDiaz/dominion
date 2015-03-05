@@ -3,6 +3,7 @@ package model.cards;
 
 
 import model.GameState;
+import model.Turn;
 import model.cards.interfaces.Action;
 import model.cards.interfaces.Card;
 import controller.Controller;
@@ -24,14 +25,14 @@ public class MilitiaCard implements Card, Action{
 		return instance;
 	}
 
-	public void takeAction(GameState g, int a, int b, int c) {
+	public void takeAction(GameState g, Turn t) {
 		Controller currController = g.getCurrentController();
 		for(Controller cont : g.getControllers()){
 			if(!cont.equals(currController)){
 				cont.discardDownTo(3);
 			}
 		}
-		c += 2;
+		t.addCash(2);
 	}
 
 	public int getCost(){

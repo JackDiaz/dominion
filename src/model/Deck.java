@@ -7,9 +7,9 @@ import model.cards.CopperCard;
 import model.cards.EstateCard;
 
 public class Deck {
-	ArrayList<Card> deck;
+	private ArrayList<Card> deck;
 	
-	public Deck(){
+	Deck(){
 		this.deck = new ArrayList<Card>();
 		for(int i = 0; i < 7; i++){
 			deck.add(CopperCard.getInstance());
@@ -21,7 +21,7 @@ public class Deck {
 		// adding this comment
 	}
 	
-	public void shuffle(){
+	void shuffle(){
 		ArrayList<Card> shuffled = new ArrayList<Card>();
 		for(int i = deck.size(); i > 0; i--){
 			double random = Math.random()*deck.size();
@@ -32,13 +32,13 @@ public class Deck {
 		deck = shuffled;
 	}
 	
-	public Card draw(){
+	Card draw(){
 		Card ret = deck.get(0);
 		deck.remove(0);
 		return ret;
 	}
 	
-	public ArrayList<Card> draw(int x){
+	ArrayList<Card> draw(int x){
 		ArrayList<Card> toDraw = new ArrayList<Card>();
 		for(int i = 0; i < x; i++){
 			toDraw.add(this.draw());
@@ -46,20 +46,20 @@ public class Deck {
 		return toDraw;
 	}
 	
-	public void addDiscardPile(Discard dis){
+	void addDiscardPile(Discard dis){
 		dis.shuffle();
 		deck.addAll(dis.get());
 	}
 	
-	public int size(){
+	int size(){
 		return deck.size();
 	}
 	
-	public void putCardOnTop(Card card){
+	void putCardOnTop(Card card){
 		deck.add(0, card);
 	}
 	
-	public Card lookAtCard(int index){
+	Card lookAtCard(int index){
 		return deck.get(index);
 	}
 }

@@ -5,12 +5,13 @@ import java.util.ArrayList;
 import controller.Controller;
 import model.GameState;
 import model.Player;
+import model.Turn;
 import model.cards.interfaces.Action;
 import model.cards.interfaces.Card;
 
 public class ChapelCard implements Card, Action{
 
-	int cost;
+	private int cost;
 	private static ChapelCard instance;
 	
 	private ChapelCard(){
@@ -24,7 +25,7 @@ public class ChapelCard implements Card, Action{
 		return instance;
 	}
 
-	public void takeAction(GameState g, int a, int b, int c) {
+	public void takeAction(GameState g, Turn t) {
 		Player currPlayer = g.getCurrentPlayer();
 		Controller currController = g.getCurrentController();
 		ArrayList<Card> toTrash = currController.trashDecision(4);

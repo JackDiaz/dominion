@@ -16,70 +16,74 @@ public class GameEngine {
 	}
 
 	public void turn(){
-		int numActions = 1;
-		int numBuys = 1;
-		int cash = 0;
+		Turn turn = new Turn();
 		ArrayList<Action> actList;
 		ArrayList<Treasure> treList;
 		ArrayList<Card> buyList;
 		Controller currController = gs.getCurrentController();
 		Player currPlayer = gs.getCurrentPlayer();
+		
+		
 		// action phase
-		while(numActions > 0){
+		while(turn.getNumActions() > 0){
 			if(currPlayer.hasActionCard()){
-				actList = currController.actionList(numActions);
+				actList = currController.actionList(turn.getNumActions());
 				if(actList == null){
-					numActions = 0;
+					turn.zeroActions();
 				}else{
 					for(Action a : actList){
-						if(numActions > 0 && currPlayer.has(a)){
-							a.takeAction(gs,numActions,numBuys,cash);
+						if(turn.getNumActions() > 0 && currPlayer.has(a)){
+							a.takeAction(gs, turn);
 							currPlayer.play(a);
-							numActions--;
+							turn.decrementActions();
 						}
 					}
 				}
 			}else{
-				numActions = 0;
+				turn.zeroActions();
 			}	
 		}
-		// buy phase
-		while(numBuys > 0){
-			if(currPlayer.hasTreasureCard()){
-				treList = currController.treasureList();
-				if(treList == null){
-
-				}else{
-					for(Treasure t : treList){
-						if(currPlayer.has(t)){
-							currPlayer.play(t);
-							cash += t.getValue();
-						}
+		
+		
+		// play treasure
+		if(currPlayer.hasTreasureCard()){
+			treList = currController.treasureList();
+			if(treList != null){
+				for(Treasure t : treList){
+					if(currPlayer.has(t)){
+						currPlayer.play(t);
+						turn.addCash(t.getValue());
 					}
 				}
 			}
+		}
+		
+		
+		// buy phase
+		while(turn.getNumBuys() > 0){
+			int cash = turn.getCash();
 			buyList = currController.buyList(cash);
-			if(buyList.size() <= numBuys){
+			if(buyList.size() <= turn.getNumBuys()){
 				for(Card card : buyList){
 					int cost = card.getCost();
 					if(gs.getSupply().has(card) && cost <= cash){
-						numBuys--;
+						turn.decrementBuys();
 						cash -= cost;
 						currPlayer.addToDiscard(card);
 					}
 				}
+			}else{
+				// they wanted to buy too much
+				// maybe just buy the first few things on their list
+				// maybe don't let them pick more than they can buy
+				// maybe only let them do one buy at a time
+				throw new IllegalArgumentException("Is this where I put my message?");
 			}
 		}
-		// clean up phase
+		
+		
+		// clean up and draw phase
 		currPlayer.cleanUp();
-
-
-		/*c.discardHand();
-		c.discardCardsInPlay();
-
-		// draw phase
-		c.drawHand();
-		 */
 	}
 
 	public void start(){

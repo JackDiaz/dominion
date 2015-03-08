@@ -1,8 +1,5 @@
 package model.cards;
 
-import java.util.ArrayList;
-
-import controller.Agent;
 import controller.Controller;
 import model.GameState;
 import model.Player;
@@ -10,25 +7,28 @@ import model.Turn;
 import model.cards.interfaces.Action;
 import model.cards.interfaces.Card;
 
-public class ChapelCard implements Card, Action{
+public class ChancellorCard implements Card, Action{
 
-	private int cost = 2;
-	private static ChapelCard instance;
+	private int cost = 3;
 	private int plusActions = 0;
+	private int plusCash = 2;
+	private static ChancellorCard instance;
+
 	
-	public static ChapelCard getInstance(){
+	public static ChancellorCard getInstance(){
 		if(instance == null){
-			instance = new ChapelCard();
+			instance = new ChancellorCard();
 		}
 		return instance;
 	}
 
 	public void takeAction(Controller c, GameState g, Turn t) {
 		Player currPlayer = g.getCurrentPlayer();
-		Agent currController = g.getCurrentAgent();
-		ArrayList<Card> toTrash = c.trashDecisionLE(currController, 4);
-		currPlayer.removeFromHand(toTrash);
-		g.getTrashPile().addAll(toTrash);
+		t.addCash(plusCash);
+		boolean discardDeck = c.discardDeck(g.getCurrentAgent());
+		if(discardDeck){
+			currPlayer.discardDeck();
+		}
 	}
 	
 	public int getCost(){

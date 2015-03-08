@@ -1,34 +1,40 @@
 package model.cards;
 
-import java.util.ArrayList;
-
-import controller.Agent;
 import controller.Controller;
 import model.GameState;
 import model.Player;
 import model.Turn;
 import model.cards.interfaces.Action;
 import model.cards.interfaces.Card;
+import model.cards.interfaces.Treasure;
 
-public class ChapelCard implements Card, Action{
+public class AdventurerCard implements Card, Action{
 
-	private int cost = 2;
-	private static ChapelCard instance;
+	private int cost = 6;
 	private int plusActions = 0;
+	private static AdventurerCard instance;
+
 	
-	public static ChapelCard getInstance(){
+	public static AdventurerCard getInstance(){
 		if(instance == null){
-			instance = new ChapelCard();
+			instance = new AdventurerCard();
 		}
 		return instance;
 	}
 
 	public void takeAction(Controller c, GameState g, Turn t) {
 		Player currPlayer = g.getCurrentPlayer();
-		Agent currController = g.getCurrentAgent();
-		ArrayList<Card> toTrash = c.trashDecisionLE(currController, 4);
-		currPlayer.removeFromHand(toTrash);
-		g.getTrashPile().addAll(toTrash);
+		Treasure treasure = currPlayer.getNextTreasure();
+		
+		if(treasure != null){
+			currPlayer.addToHand(treasure);
+		}
+		
+		treasure = currPlayer.getNextTreasure();
+		
+		if(treasure != null){
+			currPlayer.addToHand(treasure);
+		}
 	}
 	
 	public int getCost(){

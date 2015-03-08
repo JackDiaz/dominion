@@ -5,14 +5,9 @@ import model.cards.interfaces.Victory;
 
 public class EstateCard implements Card, Victory{
 	
-	int cost;
-	int vp;
+	int cost = 2;
+	int vp = 1;
 	private static EstateCard instance;
-	
-	private EstateCard(){
-		this.cost = 2;
-		this.vp = 1;
-	}
 	
 	public static EstateCard getInstance(){
 		if(instance == null){

@@ -62,4 +62,9 @@ public class Deck {
 	Card lookAtCard(int index){
 		return deck.get(index);
 	}
+
+	void addCard(int i, Card c){
+		deck.add(i, c);
+	}
+	
 }

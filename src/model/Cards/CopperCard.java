@@ -5,15 +5,9 @@ import model.cards.interfaces.Treasure;
 
 public class CopperCard implements Card, Treasure{
 	
-	int cost;
-	int val;
-	private static CopperCard instance;
-	
-	private CopperCard(){
-		this.cost = 0;
-		this.val = 1;
-	}
-	
+	int cost = 0;
+	int val = 1;
+	private static CopperCard instance;	
 	
 	public static CopperCard getInstance(){
 		if(instance == null){

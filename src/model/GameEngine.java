@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import model.cards.interfaces.Action;
 import model.cards.interfaces.Card;
 import model.cards.interfaces.Treasure;
-import controller.Agent;
 import controller.Controller;
 
 public class GameEngine {
@@ -22,7 +21,9 @@ public class GameEngine {
 			if(turn.getNumActions() > 0 && currPlayer.has(a)){
 				currPlayer.play(a);
 				turn.decrementActions();
-				a.takeAction(gs, turn);
+				a.takeAction(Controller.getInstance(), gs, turn);
+			}else{
+				throw new IllegalArgumentException("Is this where I put my message?");
 			}
 		}
 	}
@@ -34,6 +35,8 @@ public class GameEngine {
 			if(currPlayer.has(t)){
 				currPlayer.play(t);
 				turn.addCash(t.getValue());
+			}else{
+				throw new IllegalArgumentException("Is this where I put my message?");
 			}
 		}
 	}
@@ -48,6 +51,8 @@ public class GameEngine {
 					turn.decrementBuys();
 					cash -= cost;
 					currPlayer.addToDiscard(card);
+				}else{
+					throw new IllegalArgumentException("Is this where I put my message?");
 				}
 			}
 		}else{

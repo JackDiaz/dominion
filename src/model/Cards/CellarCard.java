@@ -9,32 +9,39 @@ import model.Player;
 import model.Turn;
 import model.cards.interfaces.Action;
 import model.cards.interfaces.Card;
-
-public class ChapelCard implements Card, Action{
+public class CellarCard implements Card, Action{
 
 	private int cost = 2;
-	private static ChapelCard instance;
-	private int plusActions = 0;
-	
-	public static ChapelCard getInstance(){
+	private int plusActions = 1;
+	private static CellarCard instance;
+
+
+	public static CellarCard getInstance(){
 		if(instance == null){
-			instance = new ChapelCard();
+			instance = new CellarCard();
 		}
 		return instance;
 	}
 
 	public void takeAction(Controller c, GameState g, Turn t) {
+		
+		t.addActions(plusActions);
+		
 		Player currPlayer = g.getCurrentPlayer();
-		Agent currController = g.getCurrentAgent();
-		ArrayList<Card> toTrash = c.trashDecisionLE(currController, 4);
-		currPlayer.removeFromHand(toTrash);
-		g.getTrashPile().addAll(toTrash);
+		Agent currAgent = g.getCurrentAgent();
+		ArrayList<Card> discard = c.discardToDraw(currAgent);
+
+		for(Card card : discard){
+			currPlayer.discard(card);
+		}
+
+		currPlayer.draw(discard.size());
 	}
-	
+
 	public int getCost(){
 		return cost;
 	}
-	
+
 	public int plusActions(){
 		return plusActions;
 	}

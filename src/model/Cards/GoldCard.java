@@ -4,15 +4,10 @@ import model.cards.interfaces.Card;
 import model.cards.interfaces.Treasure;
 
 public class GoldCard implements Card, Treasure{
-	int cost;
-	int val;
+	int cost = 6;
+	int val = 3;
 	private static GoldCard instance;
-	
-	private GoldCard(){
-		this.cost = 6;
-		this.val = 3;
-	}
-	
+
 	
 	public static GoldCard getInstance(){
 		if(instance == null){

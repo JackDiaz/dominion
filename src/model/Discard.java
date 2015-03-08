@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import model.cards.interfaces.Card;
 
@@ -33,5 +34,13 @@ public class Discard {
 
 	public void clear(){
 		dis = new ArrayList<Card>();
+	}
+	
+	public void addAll(Collection<? extends Card> c){
+		dis.addAll(c);
+	}
+	
+	public int size(){
+		return dis.size();
 	}
 }

@@ -4,14 +4,9 @@ import model.cards.interfaces.Card;
 import model.cards.interfaces.Treasure;
 
 public class SilverCard implements Card, Treasure{
-	int cost;
-	int val;
+	int cost = 3;
+	int val = 2;
 	private static SilverCard instance;
-	
-	private SilverCard(){
-		this.cost = 3;
-		this.val = 2;
-	}
 	
 	
 	public static SilverCard getInstance(){

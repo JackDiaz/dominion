@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import model.cards.interfaces.Action;
 import model.cards.interfaces.Card;
@@ -20,7 +21,7 @@ public class Player {
 		this.dis = new Discard();
 		this.drawHand();
 	}
-	
+
 	// protected doesn't work for subpackages =(
 
 	public void shuffle(){
@@ -54,14 +55,14 @@ public class Player {
 		}
 		hand.add(deck.draw());
 	}
-	
+
 	public void draw(int x){
 		for(int i = 0; i < x; i++){
 			this.draw();
 		}
 	}
 
-	public boolean hasActionCard(){
+	public boolean hasAction(){
 		for(Card c : hand){
 			if(c instanceof Action){
 				return true;
@@ -80,8 +81,12 @@ public class Player {
 	public void addToDiscard(Card c){
 		dis.add(c);
 	}
+	
+	public void addToDiscard(Collection<? extends Card> c){
+		dis.addAll(c);
+	}
 
-	public boolean hasTreasureCard(){
+	public boolean hasTreasure(){
 		for(Card c : hand){
 			if(c instanceof Treasure){
 				return true;
@@ -90,25 +95,65 @@ public class Player {
 		return false;
 	}
 
-	public void removeCardsFromHand(ArrayList<Card> toRemove){
-		for(Card c : toRemove){
-			if(this.has(c)){
-				hand.remove(c);
-			}
-		}
-	}
-	
 	public void cleanUp() {
 		this.discardHand();
 		this.discardCardsInPlay();
 		this.drawHand();
 	}
+
+	public void discard(Card c){
+		if(this.has(c)){
+			hand.remove(c);
+			dis.add(c);
+		}else{
+			throw new IllegalArgumentException("problems");
+		}
+	}
+
+	public Treasure getNextTreasure(){
+		ArrayList<Card> toDiscard = new ArrayList<Card>();
+		Card c;
+		while(deck.size() > 0 || dis.size() > 0){
+			c = deck.draw();
+			if(c instanceof Treasure){
+				dis.addAll(toDiscard);
+				return (Treasure) c;
+			}else{
+				toDiscard.add(c);
+			}
+		}
+		return null;
+	}
+
+	public void addToHand(Card c){
+		hand.add(c);
+	}
 	
+	public void putOnTopOfDeck(Card c){
+		deck.addCard(0, c);
+	}
 	
+	public void addToDeck(int i, Card c){
+		deck.addCard(i, c);
+	}
 	
+	public void discardDeck(){
+		Card c;
+		while(deck.size() > 0){
+			c = deck.draw();
+			dis.add(c);
+		}
+	}
 	
+	public void removeFromPlay(Card c){
+		if(inPlay.contains(c)){
+			inPlay.remove(c);
+		}
+	}
+
+
 	// public methods for use by controllers
-	
+
 	public boolean has(Card c){
 		for(Card h : hand){
 			if(h.equals(c)){
@@ -117,7 +162,7 @@ public class Player {
 		}
 		return false;
 	}
-	
+
 	public ArrayList<Card> viewHand(){
 		ArrayList<Card> handCopy = new ArrayList<Card>();
 		for(Card c : hand){
@@ -125,6 +170,20 @@ public class Player {
 		}
 		return handCopy;
 	}
+
+	public void removeFromHand(Card c){
+		if(this.has(c)){
+			this.hand.remove(c);
+		}else{
+			throw new IllegalArgumentException();
+		}
+	}
 	
-	
+	public void removeFromHand(ArrayList<Card> toRemove){
+		for(Card c : toRemove){
+			this.removeFromHand(c);
+		}
+	}
+
+
 }

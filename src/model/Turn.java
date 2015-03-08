@@ -46,6 +46,10 @@ public class Turn {
 		this.cash += c;
 	}
 	
+	public void addBuys(int b){
+		this.cash += b;
+	}
+	
 	
 	
 	

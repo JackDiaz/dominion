@@ -5,14 +5,10 @@ import model.cards.interfaces.Victory;
 
 public class DuchyCard implements Card, Victory{
 	
-	int cost;
-	int vp;
+	int cost = 5;
+	int vp = 3;
 	private static DuchyCard instance;
-	
-	private DuchyCard(){
-		this.cost = 5;
-		this.vp = 3;
-	}
+
 	
 	
 	public static DuchyCard getInstance(){

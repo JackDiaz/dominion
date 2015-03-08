@@ -9,6 +9,7 @@ import model.cards.SilverCard;
 import model.cards.interfaces.Action;
 import model.cards.interfaces.Card;
 import model.cards.interfaces.Treasure;
+import model.cards.interfaces.Victory;
 
 public class Dummy implements Agent{
 
@@ -78,15 +79,44 @@ public class Dummy implements Agent{
 	}
 
 	@Override
-	public ArrayList<Card> trashDecision(int num) {
+	public ArrayList<Card> trashDecisionLE(int num) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ArrayList<Card> trashDecisionE(int num) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void discardDownTo(int x) {
+	public ArrayList<Card> discardDownTo(int x) {
 		// TODO Auto-generated method stub
+		return null;
+	}
 
+	@Override
+	public Victory victoryCardOnTop() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<Card> discardToDraw() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean discardDeck() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Card gainLE(int num) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

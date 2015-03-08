@@ -1,6 +1,7 @@
 package model.cards;
 
 
+import controller.Controller;
 import model.GameState;
 import model.Player;
 import model.Turn;
@@ -9,14 +10,9 @@ import model.cards.interfaces.Card;
 
 public class LaboratoryCard implements Card, Action{
 
-	int cost;
+	int cost = 5;
 	private static LaboratoryCard instance;
-	int plusActions;
-
-	private LaboratoryCard(){
-		this.cost = 5;
-		this.plusActions = 1;
-	}
+	int plusActions = 1;
 	
 	
 	public static LaboratoryCard getInstance(){
@@ -26,7 +22,7 @@ public class LaboratoryCard implements Card, Action{
 		return instance;
 	}
 
-	public void takeAction(GameState g, Turn t) {
+	public void takeAction(Controller c, GameState g, Turn t) {
 		Player currentPlayer = g.getCurrentPlayer();
 		currentPlayer.draw(2);
 		t.addActions(1);

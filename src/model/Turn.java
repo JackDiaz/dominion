@@ -6,33 +6,33 @@ public class Turn {
 	int numBuys;
 	int cash;
 	
-	void turn(){
+	public Turn(){
 		this.numActions = 1;
 		this.numBuys = 1;
 		this.cash = 0;
 	}
 	
-	int getNumActions(){
+	public int getNumActions(){
 		return this.numActions;
 	}
 	
-	int getNumBuys(){
+	public int getNumBuys(){
 		return this.numBuys;
 	}
 	
-	int getCash(){
+	public int getCash(){
 		return this.cash;
 	}
 	
-	void decrementActions(){
+	public void decrementActions(){
 		this.numActions--;
 	}
 	
-	void decrementBuys(){
+	public void decrementBuys(){
 		this.numBuys--;
 	}
 	
-	void zeroActions(){
+	public void zeroActions(){
 		this.numActions = 0;
 	}
 	

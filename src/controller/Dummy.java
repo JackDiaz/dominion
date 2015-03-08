@@ -10,7 +10,7 @@ import model.cards.interfaces.Action;
 import model.cards.interfaces.Card;
 import model.cards.interfaces.Treasure;
 
-public class Dummy implements Controller{
+public class Dummy implements Agent{
 
 	Player p;
 
@@ -47,7 +47,7 @@ public class Dummy implements Controller{
 		return actionList;
 	}
 
-	public ArrayList<Card> buyList(int cash) {
+	public ArrayList<Card> buyList(int numBuys, int cash) {
 		ArrayList<Card> buyList = new ArrayList<Card>();
 		if(cash >= 8){
 			buyList.add(ProvinceCard.getInstance());

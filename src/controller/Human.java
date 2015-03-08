@@ -8,7 +8,12 @@ import model.cards.interfaces.Card;
 import model.cards.interfaces.Treasure;
 import model.cards.ChapelCard;
 
-public class Human implements Controller{
+/*
+ * this class doesn't exist, please go elsewhere
+ */
+
+
+public class Human {
 
 	Player p;
 
@@ -52,9 +57,7 @@ public class Human implements Controller{
 
 	}
 
-	@Override
 	public ArrayList<Action> actionList(int numActions) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

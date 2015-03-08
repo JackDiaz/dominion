@@ -2,6 +2,7 @@ package model.cards;
 
 import java.util.ArrayList;
 
+import controller.Agent;
 import controller.Controller;
 import model.GameState;
 import model.Player;
@@ -27,7 +28,7 @@ public class ChapelCard implements Card, Action{
 
 	public void takeAction(GameState g, Turn t) {
 		Player currPlayer = g.getCurrentPlayer();
-		Controller currController = g.getCurrentController();
+		Agent currController = g.getCurrentController();
 		ArrayList<Card> toTrash = currController.trashDecision(4);
 		currPlayer.removeCardsFromHand(toTrash);
 		g.getTrashPile().addAll(toTrash);

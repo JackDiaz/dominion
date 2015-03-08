@@ -14,7 +14,7 @@ public class Discard {
 
 	public void shuffle(){
 		ArrayList<Card> shuffled = new ArrayList<Card>();
-		for(int i = 0; i < dis.size(); i++){
+		for(int i = dis.size(); i > 0; i--){
 			double random = Math.random()*dis.size();
 			int slot = (int)Math.floor(random);
 			shuffled.add(dis.get(slot));

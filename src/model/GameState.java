@@ -4,30 +4,31 @@ import java.util.ArrayList;
 
 import model.cards.LaboratoryCard;
 import model.cards.interfaces.Card;
+import controller.Agent;
 import controller.Controller;
 import controller.Dummy;
 
 public class GameState {
-	private ArrayList<Controller> controllers;
+	private ArrayList<Agent> controllers;
 	private ArrayList<Player> players;
+	
 	private int first;
+	
 	private Supply sup;
+	
 	private int numPlayers;
 	private Player currentPlayer;
-	private Controller currentController;
+	private Agent currentController;
 	private ArrayList<Card> trashPile;
 	private int playerNumber;
 	
-	public GameState(){
+	public GameState(ArrayList<Card> kingdomCards){
 		this.players = new ArrayList<Player>();
 		this.players.add(new Player());
 		this.players.add(new Player());
-		this.controllers = new ArrayList<Controller>();
+		this.controllers = new ArrayList<Agent>();
 		this.controllers.add(new Dummy(players.get(0)));
-		this.controllers.add(new Dummy(players.get(1)));
-
-		ArrayList<Card> kingdomCards = new ArrayList<Card>();
-		kingdomCards.add(LaboratoryCard.getInstance());
+		this.controllers.add(new Dummy(players.get(1)));		
 		this.sup = new Supply(kingdomCards);
 		this.numPlayers = players.size();
 		if(Math.random() < .5){
@@ -55,7 +56,7 @@ public class GameState {
 		return currentPlayer;
 	}
 	
-	public Controller getCurrentController(){
+	public Agent getCurrentController(){
 		return currentController;
 	}
 	
@@ -63,7 +64,7 @@ public class GameState {
 		return trashPile;
 	}
 	
-	public ArrayList<Controller> getControllers(){
+	public ArrayList<Agent> getControllers(){
 		return controllers;
 	}
 	

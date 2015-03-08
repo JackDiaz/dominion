@@ -6,6 +6,7 @@ import model.GameState;
 import model.Turn;
 import model.cards.interfaces.Action;
 import model.cards.interfaces.Card;
+import controller.Agent;
 import controller.Controller;
 
 public class MilitiaCard implements Card, Action{
@@ -26,8 +27,8 @@ public class MilitiaCard implements Card, Action{
 	}
 
 	public void takeAction(GameState g, Turn t) {
-		Controller currController = g.getCurrentController();
-		for(Controller cont : g.getControllers()){
+		Agent currController = g.getCurrentController();
+		for(Agent cont : g.getControllers()){
 			if(!cont.equals(currController)){
 				cont.discardDownTo(3);
 			}

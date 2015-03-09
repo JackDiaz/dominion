@@ -16,6 +16,8 @@ import controller.Controller;
 
 public class MilitiaCard implements Card, Action, Attack{
 
+	private String name = "Militia";
+	
 	private int cost = 4;
 	
 	private int plusActions = 0;
@@ -69,6 +71,14 @@ public class MilitiaCard implements Card, Action, Attack{
 	
 	public int plusCash(){
 		return plusCash;
+	}
+	
+	public String getName(){
+		return name;
+	}
+	
+	public String toString(){
+		return name;
 	}
 
 }

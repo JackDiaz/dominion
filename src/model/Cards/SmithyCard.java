@@ -8,6 +8,8 @@ import model.cards.interfaces.Card;
 
 public class SmithyCard implements Card, Action{
 
+	private String name = "Smithy";
+	
 	private int cost = 4;
 	
 	private int plusCards = 3;
@@ -47,5 +49,13 @@ public class SmithyCard implements Card, Action{
 	
 	public int plusCash(){
 		return plusCash;
+	}
+	
+	public String getName(){
+		return name;
+	}
+	
+	public String toString(){
+		return name;
 	}
 }

@@ -9,6 +9,8 @@ import model.cards.interfaces.Card;
 
 public class FeastCard implements Card, Action{
 
+	private String name = "Feast";
+	
 	private int cost = 4;
 	
 	private int plusActions = 0;
@@ -29,9 +31,9 @@ public class FeastCard implements Card, Action{
 	public void takeAction(GameState g, Turn t) {
 		Player currPlayer = g.getCurrentPlayer();
 		currPlayer.removeFromPlay(FeastCard.getInstance());
-		g.getTrashPile().add(FeastCard.getInstance());
+		GameState.getTrashPile().add(FeastCard.getInstance());
 		Card card = Controller.gainLECost(g.getCurrentAgent(), 5);
-		currPlayer.addToDiscard(card);
+		currPlayer.gain(card);
 	}
 	
 	public int getCost(){
@@ -52,5 +54,13 @@ public class FeastCard implements Card, Action{
 	
 	public int plusCash(){
 		return plusCash;
+	}
+	
+	public String getName(){
+		return name;
+	}
+	
+	public String toString(){
+		return name;
 	}
 }

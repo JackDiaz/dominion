@@ -2,36 +2,101 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
+import model.cards.CopperCard;
+import model.cards.EstateCard;
 import model.cards.interfaces.Action;
 import model.cards.interfaces.Card;
 import model.cards.interfaces.Treasure;
+import model.cards.interfaces.Victory;
 
 
 public class Player {
+	public String name;
 	private Deck deck;
 	private Discard dis;
 	private ArrayList<Card> hand;
 	private ArrayList<Card> inPlay;
 	private int totalTurns;
+	public int currentScore;
+	public HashMap<Card, Integer> cards;
 
-	protected Player(){
+	protected Player(String name){
+		this.name = name;
 		this.deck = new Deck();
 		this.hand = new ArrayList<Card>();
 		this.inPlay = new ArrayList<Card>();
 		this.dis = new Discard();
 		this.drawHand();
 		this.totalTurns = 0;
+		this.cards = new HashMap<Card, Integer>();
+		this.cards.put(CopperCard.getInstance(), 7);
+		this.cards.put(EstateCard.getInstance(), 3);
 	}
-	
+
+	public void play(Card c){
+		if(this.has(c)){
+			hand.remove(c);
+			inPlay.add(c);
+		}
+		System.out.println(this.name + "   -> " + c.getName());
+	}
+
+	public void gain(Card c){
+		if(c instanceof Victory){
+			// maybe add to hash to know every card in the deck
+			// would need to account for trashing
+			this.currentScore += ((Victory)c).getVP();
+		}
+		if(cards.containsKey(c)){
+			cards.put(c, cards.get(c)+1);
+		}else{
+			cards.put(c, 1);
+		}
+		this.addToDiscard(c);
+		System.out.println(this.name + " <-   " + c.getName());
+	}
+
+	public void gainOnTop(Card c){
+		if(c instanceof Victory){
+			// maybe add to hash to know every card in the deck
+			// would need to account for trashing
+			this.currentScore += ((Victory)c).getVP();
+		}
+		if(cards.containsKey(c)){
+			cards.put(c, cards.get(c)+1);
+		}else{
+			cards.put(c, 1);
+		}
+		this.putOnTopOfDeck(c);
+		System.out.println(this.name + " <-   " + c.getName());
+	}
+
+	public void trashFromHand(Card toTrash){
+		cards.put(toTrash, cards.get(toTrash)-1);
+		this.removeFromHand(toTrash);
+		GameState.getTrashPile().add(toTrash);
+		System.out.println(this.name + "   XX " + toTrash.getName());
+	}
+
+	public void trashFromHand(ArrayList<Card> toTrash){
+		for(Card c : toTrash){
+			cards.put(c, cards.get(c)-1);
+			System.out.println(this.name + "   XX " + c.getName());
+		}
+		this.removeFromHand(toTrash);
+		GameState.getTrashPile().addAll(toTrash);
+	}
+
 	public void addTurn(){
 		this.totalTurns++;
 	}
-	
+
 	public ArrayList<Card> getDiscardList(){
 		return dis.get();
 	}
-	
+
 	public int getTotalTurns(){
 		return this.totalTurns;
 	}
@@ -65,7 +130,10 @@ public class Player {
 			deck.addDiscardPile(dis);
 			dis.clear();
 		}
-		hand.add(deck.draw());
+		Card c = deck.draw();
+		if(c != null){
+			hand.add(c);
+		}
 	}
 
 	public void draw(int x){
@@ -83,17 +151,10 @@ public class Player {
 		return false;
 	}
 
-	public void play(Card c){
-		if(this.has(c)){
-			hand.remove(c);
-			inPlay.add(c);
-		}
-	}
-
 	public void addToDiscard(Card c){
 		dis.add(c);
 	}
-	
+
 	public void addToDiscard(Collection<? extends Card> c){
 		dis.addAll(c);
 	}
@@ -134,21 +195,22 @@ public class Player {
 				toDiscard.add(c);
 			}
 		}
+		dis.addAll(toDiscard);
 		return null;
 	}
 
 	public void addToHand(Card c){
 		hand.add(c);
 	}
-	
+
 	public void putOnTopOfDeck(Card c){
 		deck.addCard(0, c);
 	}
-	
+
 	public void addToDeck(int i, Card c){
 		deck.addCard(i, c);
 	}
-	
+
 	public void discardDeck(){
 		Card c;
 		while(deck.size() > 0){
@@ -156,7 +218,7 @@ public class Player {
 			dis.add(c);
 		}
 	}
-	
+
 	public void removeFromPlay(Card c){
 		if(inPlay.contains(c)){
 			inPlay.remove(c);
@@ -187,29 +249,29 @@ public class Player {
 			throw new IllegalArgumentException();
 		}
 	}
-	
+
 	public void removeFromHand(ArrayList<Card> toRemove){
 		for(Card c : toRemove){
 			this.removeFromHand(c);
 		}
 	}
-	
+
 	public int handSize(){
 		return hand.size();
 	}
-	
+
 	public int deckSize(){
 		return deck.size();
 	}
-	
+
 	public int discardSize(){
 		return dis.size();
 	}
-	
+
 	public Card viewTop(){
 		return deck.lookAtCard(0);
 	}
-	
+
 	public ArrayList<Card> viewTop(int x){
 		ArrayList<Card> ret = new ArrayList<Card>();
 		for(int i = 0; i < x; i++){
@@ -225,5 +287,4 @@ public class Player {
 		}
 		return deck.remove(0);
 	}
-
 }

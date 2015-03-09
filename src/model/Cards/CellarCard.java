@@ -11,6 +11,8 @@ import model.cards.interfaces.Action;
 import model.cards.interfaces.Card;
 public class CellarCard implements Card, Action{
 
+	String name = "Cellar";
+	
 	private int cost = 2;
 	
 	private int plusActions = 1;
@@ -61,5 +63,13 @@ public class CellarCard implements Card, Action{
 	
 	public int plusCash(){
 		return plusCash;
+	}
+	
+	public String getName(){
+		return name;
+	}
+	
+	public String toString(){
+		return name;
 	}
 }

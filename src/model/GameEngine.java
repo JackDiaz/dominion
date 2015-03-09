@@ -49,7 +49,9 @@ public class GameEngine {
 				if(gs.getSupply().has(card) && cost <= cash){
 					turn.decrementBuys();
 					cash -= cost;
-					currPlayer.addToDiscard(card);
+					turn.addCash(-cost);
+					currPlayer.gain(card);
+					gs.getSupply().remove(card);
 				}else{
 					throw new IllegalArgumentException("Is this where I put my message?");
 				}

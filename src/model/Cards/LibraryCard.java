@@ -11,6 +11,8 @@ import model.cards.interfaces.Action;
 import model.cards.interfaces.Card;
 
 public class LibraryCard implements Card, Action{
+	
+	private String name = "Library";
 
 	private int cost = 5;
 
@@ -38,7 +40,7 @@ public class LibraryCard implements Card, Action{
 				&& (currPlayer.deckSize() > 0 || currPlayer.discardSize() > 0)){
 			card = currPlayer.viewTop();
 			if(card instanceof Action){
-				boolean add = Controller.addToHand(currAgent, card);
+				boolean add = Controller.addToHand(currAgent, card, t);
 				if(add){
 					currPlayer.draw();
 				}else{
@@ -69,5 +71,13 @@ public class LibraryCard implements Card, Action{
 
 	public int plusCash(){
 		return plusCash;
+	}
+	
+	public String getName(){
+		return name;
+	}
+	
+	public String toString(){
+		return name;
 	}
 }

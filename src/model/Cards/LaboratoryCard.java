@@ -9,6 +9,8 @@ import model.cards.interfaces.Card;
 
 public class LaboratoryCard implements Card, Action{
 
+	String name = "Laboratory";
+	
 	int cost = 5;
 	
 	private int plusActions = 1;
@@ -50,6 +52,14 @@ public class LaboratoryCard implements Card, Action{
 	
 	public int plusCash(){
 		return plusCash;
+	}
+	
+	public String getName(){
+		return name;
+	}
+	
+	public String toString(){
+		return name;
 	}
 
 }

@@ -12,6 +12,8 @@ import model.cards.interfaces.Card;
 
 public class ChapelCard implements Card, Action{
 
+	private String name = "Chapel";
+	
 	private int cost = 2;
 	
 	private int plusActions = 0;
@@ -30,10 +32,12 @@ public class ChapelCard implements Card, Action{
 
 	public void takeAction(GameState g, Turn t) {
 		Player currPlayer = g.getCurrentPlayer();
-		Agent currController = g.getCurrentAgent();
-		ArrayList<Card> toTrash = Controller.trashDecisionLE(currController, 4);
-		currPlayer.removeFromHand(toTrash);
-		g.getTrashPile().addAll(toTrash);
+		Agent currAgent = g.getCurrentAgent();
+		ArrayList<Card> toTrash = Controller.trashDecisionLE(currAgent, 4);
+		if(toTrash.size() > 4){
+			throw new IllegalArgumentException(currPlayer.name + " Chapel'd more than 4");
+		}
+		currPlayer.trashFromHand(toTrash);
 	}
 	
 	public int getCost(){
@@ -54,5 +58,13 @@ public class ChapelCard implements Card, Action{
 	
 	public int plusCash(){
 		return plusCash;
+	}
+	
+	public String getName(){
+		return name;
+	}
+	
+	public String toString(){
+		return name;
 	}
 }

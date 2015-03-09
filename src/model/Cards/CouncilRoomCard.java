@@ -8,6 +8,8 @@ import model.cards.interfaces.Card;
 
 public class CouncilRoomCard implements Card, Action{
 
+	private String name = "Council Room";
+	
 	private int cost = 5;
 	
 	private int plusActions = 0;
@@ -55,5 +57,13 @@ public class CouncilRoomCard implements Card, Action{
 	
 	public int plusCash(){
 		return plusCash;
+	}
+	
+	public String getName(){
+		return name;
+	}
+	
+	public String toString(){
+		return name;
 	}
 }

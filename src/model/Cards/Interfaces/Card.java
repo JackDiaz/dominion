@@ -7,7 +7,9 @@ public interface Card {
 	int cost;
 	int value;
 	int victoryPoints;*/
-	
+
 	public int getCost();
+	
+	public String getName();
 	
 }

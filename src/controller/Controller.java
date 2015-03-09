@@ -7,8 +7,12 @@ import model.GameEngine;
 import model.GameState;
 import model.Player;
 import model.Turn;
+import model.cards.ChapelCard;
+import model.cards.FestivalCard;
 import model.cards.GardensCard;
 import model.cards.LaboratoryCard;
+import model.cards.MarketCard;
+import model.cards.VillageCard;
 import model.cards.interfaces.Action;
 import model.cards.interfaces.Card;
 import model.cards.interfaces.Curse;
@@ -36,7 +40,15 @@ public class Controller {
 			if(ge.gameIsOver()){
 				gameIsOver = true;
 			}else{
+				
 				gs.nextPlayer();
+				
+				System.out.println();
+				for(Player p : gs.getPlayers()){
+					System.out.println(p.name + " Score: " + p.currentScore + " Num Turns: " + p.getTotalTurns() + " " + p.cards);
+				}
+				System.out.println();
+
 				this.turn();
 			}
 		}
@@ -50,9 +62,14 @@ public class Controller {
 		HashMap<String, ArrayList<Agent>> ret = new HashMap<String, ArrayList<Agent>>();
 		ArrayList<Agent> losers = new ArrayList<Agent>();
 
+		System.out.println();
+		
 		for(Player p : players){
 			int score = this.calculateScore(p);
 			int turns = p.getTotalTurns();
+			
+			System.out.println(p.name + " Score: " + score + " Num Turns: " + turns + " " + p.cards);
+
 			if(score > highScore){
 
 				highScore = score;
@@ -121,7 +138,13 @@ public class Controller {
 
 	public static void main(String args[]){
 		ArrayList<Card> kingdomCards = new ArrayList<Card>();
+		
 		kingdomCards.add(LaboratoryCard.getInstance());
+		kingdomCards.add(MarketCard.getInstance());
+		kingdomCards.add(VillageCard.getInstance());
+		kingdomCards.add(ChapelCard.getInstance());
+		kingdomCards.add(FestivalCard.getInstance());
+
 		GameState gs = new GameState(kingdomCards);
 		GameEngine ge = new GameEngine(gs);
 		Controller c = new Controller(gs, ge);
@@ -224,12 +247,12 @@ public class Controller {
 		return a.discardDeck();
 	}
 
-	public static Card gainLECost(Agent a, int num){
-		return a.gainLECost(num);
+	public static Card gainLECost(Agent a, int cost){
+		return a.gainLECost(cost);
 	}
 
 
-	public static boolean addToHand(Agent a, Card card) {
-		return a.addToHand(card);
+	public static boolean addToHand(Agent a, Card card, Turn turn) {
+		return a.addToHand(card, turn);
 	}
 }

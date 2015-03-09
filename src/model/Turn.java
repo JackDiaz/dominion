@@ -36,8 +36,6 @@ public class Turn {
 		this.numActions = 0;
 	}
 	
-	// public methods below because the actions need to use them
-	
 	public void addActions(int a){
 		this.numActions += a;
 	}
@@ -47,7 +45,7 @@ public class Turn {
 	}
 	
 	public void addBuys(int b){
-		this.cash += b;
+		this.numBuys += b;
 	}
 	
 	

@@ -5,6 +5,8 @@ import model.cards.interfaces.Treasure;
 
 public class CopperCard implements Card, Treasure{
 	
+	String name = "Copper";
+	
 	int cost = 0;
 	int val = 1;
 	private static CopperCard instance;	
@@ -22,6 +24,14 @@ public class CopperCard implements Card, Treasure{
 	
 	public int getCost(){
 		return cost;
+	}
+	
+	public String getName(){
+		return name;
+	}
+	
+	public String toString(){
+		return name;
 	}
 	
 }

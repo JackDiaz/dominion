@@ -8,6 +8,8 @@ import model.cards.interfaces.Card;
 import model.cards.interfaces.Treasure;
 
 public class AdventurerCard implements Card, Action{
+	
+	String name = "Adventurer";
 
 	private int cost = 6;
 	
@@ -32,13 +34,14 @@ public class AdventurerCard implements Card, Action{
 		
 		if(treasure != null){
 			currPlayer.addToHand(treasure);
+			
+			treasure = currPlayer.getNextTreasure();
+			
+			if(treasure != null){
+				currPlayer.addToHand(treasure);
+			}
 		}
-		
-		treasure = currPlayer.getNextTreasure();
-		
-		if(treasure != null){
-			currPlayer.addToHand(treasure);
-		}
+
 	}
 	
 	public int getCost(){
@@ -59,5 +62,13 @@ public class AdventurerCard implements Card, Action{
 	
 	public int plusCash(){
 		return plusCash;
+	}
+	
+	public String getName(){
+		return name;
+	}
+	
+	public String toString(){
+		return name;
 	}
 }

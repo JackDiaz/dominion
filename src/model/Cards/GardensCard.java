@@ -9,6 +9,8 @@ import model.cards.interfaces.Victory;
 
 public class GardensCard implements Card, Victory{
 
+	String name = "Gardens";
+	
 	private int cost = 4;
 	private int vp = 0;
 
@@ -29,5 +31,13 @@ public class GardensCard implements Card, Victory{
 
 	public int getVP(){
 		return vp;
+	}
+	
+	public String getName(){
+		return name;
+	}
+	
+	public String toString(){
+		return name;
 	}
 }

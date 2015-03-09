@@ -7,6 +7,8 @@ import model.cards.interfaces.Card;
 
 public class FestivalCard implements Card, Action{
 
+	private String name = "Festival";
+	
 	private int cost = 5;
 	
 	private int plusActions = 2;
@@ -25,9 +27,9 @@ public class FestivalCard implements Card, Action{
 	}
 
 	public void takeAction(GameState g, Turn t) {
-		t.addActions(plusActions);
-		t.addBuys(plusBuys);
-		t.addCash(plusCash);
+		t.addActions(this.plusActions);
+		t.addBuys(this.plusBuys);
+		t.addCash(this.plusCash);
 	}
 	
 	public int getCost(){
@@ -48,5 +50,13 @@ public class FestivalCard implements Card, Action{
 	
 	public int plusCash(){
 		return plusCash;
+	}
+	
+	public String getName(){
+		return name;
+	}
+	
+	public String toString(){
+		return name;
 	}
 }

@@ -5,23 +5,23 @@ import model.Turn;
 import model.cards.interfaces.Action;
 import model.cards.interfaces.Card;
 
-public class MarketCard implements Card, Action{
+public class VillageCard implements Card, Action{
 
-	private String name = "Market";
+	private int cost = 3;
 	
-	private int cost = 5;
+	String name = "Village";
 	
-	private int plusActions = 1;
 	private int plusCards = 1;
-	private int plusBuys = 1;
-	private int plusCash = 1;
+	private int plusActions = 2;
+	private int plusBuys = 0;
+	private int plusCash = 0;
 	
-	private static MarketCard instance;
+	private static VillageCard instance;
 
 	
-	public static MarketCard getInstance(){
+	public static VillageCard getInstance(){
 		if(instance == null){
-			instance = new MarketCard();
+			instance = new VillageCard();
 		}
 		return instance;
 	}
@@ -29,8 +29,6 @@ public class MarketCard implements Card, Action{
 	public void takeAction(GameState g, Turn t) {
 		g.getCurrentPlayer().draw();
 		t.addActions(plusActions);
-		t.addBuys(plusBuys);
-		t.addCash(plusCash);
 	}
 	
 	public int getCost(){

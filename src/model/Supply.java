@@ -81,4 +81,16 @@ public class Supply {
 		}
 		return false;
 	}
+	
+	public void remove(Card c){
+		if(this.has(c)){
+			this.sup.put(c, this.sup.get(c)-1);
+		}else{
+			throw new IllegalArgumentException("gain in supply");
+		}
+	}
+	
+	public int numLeft(Card c){
+		return sup.get(c);
+	}
 }

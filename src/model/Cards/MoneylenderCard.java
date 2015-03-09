@@ -8,6 +8,8 @@ import model.cards.interfaces.Action;
 
 public class MoneylenderCard implements Action{
 
+	private String name = "MoneyLender";
+	
 	private int cost = 4;
 	
 	private int plusActions = 0;
@@ -27,8 +29,7 @@ public class MoneylenderCard implements Action{
 	public void takeAction(GameState g, Turn t) {
 		Player currPlayer = g.getCurrentPlayer();
 		if(currPlayer.has(CopperCard.getInstance())){
-			currPlayer.removeFromHand(CopperCard.getInstance());
-			g.getTrashPile().add(CopperCard.getInstance());
+			currPlayer.trashFromHand(CopperCard.getInstance());
 			t.addCash(3);
 		}
 	}
@@ -51,6 +52,14 @@ public class MoneylenderCard implements Action{
 	
 	public int plusCash(){
 		return plusCash;
+	}
+	
+	public String getName(){
+		return name;
+	}
+	
+	public String toString(){
+		return name;
 	}
 }
 

@@ -5,6 +5,8 @@ import model.cards.interfaces.Victory;
 
 public class EstateCard implements Card, Victory{
 	
+	String name = "Estate";
+	
 	int cost = 2;
 	int vp = 1;
 	private static EstateCard instance;
@@ -22,5 +24,13 @@ public class EstateCard implements Card, Victory{
 	
 	public int getCost(){
 		return cost;
+	}
+	
+	public String getName(){
+		return name;
+	}
+	
+	public String toString(){
+		return name;
 	}
 }

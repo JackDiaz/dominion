@@ -2,6 +2,7 @@ package controller;
 
 import java.util.ArrayList;
 
+import model.Turn;
 import model.cards.interfaces.Action;
 import model.cards.interfaces.Card;
 import model.cards.interfaces.Treasure;
@@ -27,7 +28,7 @@ public interface Agent {
 	
 	public boolean discardDeck();
 	
-	public Card gainLECost(int num);
+	public Card gainLECost(int cost);
 
-	public boolean addToHand(Card card);
+	public boolean addToHand(Card card, Turn turn);
 }

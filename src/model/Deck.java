@@ -33,6 +33,9 @@ public class Deck {
 	}
 	
 	Card draw(){
+		if(deck.size() == 0){
+			return null;
+		}
 		Card ret = deck.get(0);
 		deck.remove(0);
 		return ret;

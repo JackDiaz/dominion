@@ -14,6 +14,8 @@ import model.cards.interfaces.Victory;
 
 public class BureaucratCard implements Card, Action, Attack{
 
+	String name = "Bureaucrat";
+	
 	private int cost = 4;
 	
 	private int plusActions = 0;
@@ -35,7 +37,7 @@ public class BureaucratCard implements Card, Action, Attack{
 		Player currPlayer = g.getCurrentPlayer();
 		Agent currAgent = g.getCurrentAgent();
 		HashMap<Agent, Player> agentPlayer = g.getAgentPlayer();
-		currPlayer.putOnTopOfDeck(SilverCard.getInstance());
+		currPlayer.gainOnTop(SilverCard.getInstance());
 		for(Agent a : g.getAgents()){
 			if(!a.equals(currAgent)){
 				Victory v = Controller.victoryCardOnTop(a);
@@ -64,5 +66,13 @@ public class BureaucratCard implements Card, Action, Attack{
 	
 	public int plusCash(){
 		return plusCash;
+	}
+	
+	public String getName(){
+		return name;
+	}
+	
+	public String toString(){
+		return name;
 	}
 }

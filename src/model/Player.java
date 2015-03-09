@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import model.cards.CopperCard;
 import model.cards.EstateCard;
+import model.cards.FeastCard;
 import model.cards.interfaces.Action;
 import model.cards.interfaces.Card;
 import model.cards.interfaces.Treasure;
@@ -72,21 +73,41 @@ public class Player {
 		this.putOnTopOfDeck(c);
 		System.out.println(this.name + " <-   " + c.getName());
 	}
+	
+	public void gainIntoHand(Card c){
+		if(c instanceof Victory){
+			// maybe add to hash to know every card in the deck
+			// would need to account for trashing
+			this.currentScore += ((Victory)c).getVP();
+		}
+		if(cards.containsKey(c)){
+			cards.put(c, cards.get(c)+1);
+		}else{
+			cards.put(c, 1);
+		}
+		this.addToHand(c);
+		System.out.println(this.name + " <-   " + c.getName());
+	}
 
-	public void trashFromHand(Card toTrash){
+	protected void trashFromHand(Card toTrash){
 		cards.put(toTrash, cards.get(toTrash)-1);
 		this.removeFromHand(toTrash);
-		GameState.getTrashPile().add(toTrash);
 		System.out.println(this.name + "   XX " + toTrash.getName());
 	}
 
-	public void trashFromHand(ArrayList<Card> toTrash){
+	protected void trashFromHand(ArrayList<Card> toTrash){
 		for(Card c : toTrash){
 			cards.put(c, cards.get(c)-1);
 			System.out.println(this.name + "   XX " + c.getName());
 		}
 		this.removeFromHand(toTrash);
-		GameState.getTrashPile().addAll(toTrash);
+	}
+	
+	protected void trashFromPlay(Card c){
+		cards.put(c, cards.get(c)-1);
+		this.removeFromPlay(FeastCard.getInstance());
+		System.out.println(this.name + "   XX " + c.getName());
+
 	}
 
 	public void addTurn(){

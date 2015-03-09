@@ -3,33 +3,37 @@ package model.cards;
 import model.GameState;
 import model.Turn;
 import model.cards.interfaces.Action;
+import model.cards.interfaces.Attack;
 import model.cards.interfaces.Card;
 
-public class FestivalCard implements Card, Action{
+public class WitchCard implements Card, Action, Attack{
 
-	private String name = "Festival";
+	private String name = "Witch";
 	
 	private int cost = 5;
 	
-	private int plusCrds = 0;
-	private int plusActs = 2;
-	private int plusBuys = 1;
-	private int plusCash = 2;
+	private int plusCrds = 2;
+	private int plusActs = 0;
+	private int plusBuys = 0;
+	private int plusCash = 0;
 	
-	private static FestivalCard instance;
+	private static WitchCard instance;
 
 	
-	public static FestivalCard getInstance(){
+	public static WitchCard getInstance(){
 		if(instance == null){
-			instance = new FestivalCard();
+			instance = new WitchCard();
 		}
 		return instance;
 	}
 
 	public void takeAction(GameState g, Turn t) {
-		t.addActions(this.plusActs);
-		t.addBuys(this.plusBuys);
-		t.addCash(this.plusCash);
+		g.getCurrentPlayer().draw(plusCrds);
+		this.attack();
+	}
+	
+	public void attack(){
+		
 	}
 	
 	public int getCost(){

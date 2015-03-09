@@ -52,6 +52,10 @@ public class MilitiaCard implements Card, Action, Attack{
 		}
 		t.addCash(2);
 	}
+	
+	public void attack(){
+		
+	}
 
 	public int getCost(){
 		return cost;

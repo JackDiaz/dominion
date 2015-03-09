@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import model.cards.FeastCard;
 import model.cards.interfaces.Card;
 import controller.Agent;
 import controller.Dummy;
@@ -23,7 +24,9 @@ public class GameState {
 	private int numPlayers;
 	private Player currentPlayer;
 	private Agent currentAgent;
-	private static ArrayList<Card> trashPile = new ArrayList<Card>();
+	// fix the trash pile!!!
+	// and dis-ensnare the state stuff while you're at it!!!
+	private ArrayList<Card> trashPile = new ArrayList<Card>();
 	private int playerNumber;
 	
 	public GameState(ArrayList<Card> kingdomCards){
@@ -78,7 +81,7 @@ public class GameState {
 		return currentAgent;
 	}
 	
-	public static ArrayList<Card> getTrashPile(){
+	public ArrayList<Card> getTrashPile(){
 		return trashPile;
 	}
 	
@@ -110,5 +113,21 @@ public class GameState {
 		playerNumber = (playerNumber + 1)%numPlayers;
 		currentPlayer = players.get(playerNumber);
 		currentAgent = agents.get(playerNumber);
+	}
+	
+	public void trashFromHand(Player p, Card toTrash){
+		p.trashFromHand(toTrash);
+		trashPile.add(toTrash);
+	}
+	
+	public void trashFromHand(Player p, ArrayList<Card> toTrash){
+		p.trashFromHand(toTrash);
+		trashPile.addAll(toTrash);
+	}
+	
+	public void trashFromPlay(Player p, Card c){
+		
+		p.trashFromPlay(FeastCard.getInstance());
+		trashPile.add(FeastCard.getInstance());
 	}
 }

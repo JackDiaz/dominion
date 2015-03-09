@@ -1,7 +1,5 @@
 package model.cards;
 
-import java.util.ArrayList;
-
 import controller.Agent;
 import controller.Controller;
 import model.GameState;
@@ -10,34 +8,35 @@ import model.Turn;
 import model.cards.interfaces.Action;
 import model.cards.interfaces.Card;
 
-public class ChapelCard implements Card, Action{
+public class ThroneRoomCard implements Card, Action{
 
-	private String name = "Chapel";
+	private String name = "Throne Room";
 	
-	private int cost = 2;
+	private int cost = 4;
 	
-	private int plusActions = 0;
-	private int plusCards = 0;
+	private int plusCrds = 0;
+	private int plusActs = 0;
 	private int plusBuys = 0;
 	private int plusCash = 0;
 	
-	private static ChapelCard instance;
+	private static ThroneRoomCard instance;
+
 	
-	public static ChapelCard getInstance(){
+	public static ThroneRoomCard getInstance(){
 		if(instance == null){
-			instance = new ChapelCard();
+			instance = new ThroneRoomCard();
 		}
 		return instance;
 	}
 
 	public void takeAction(GameState g, Turn t) {
-		Player currPlayer = g.getCurrentPlayer();
-		Agent currAgent = g.getCurrentAgent();
-		ArrayList<Card> toTrash = Controller.trashDecisionLE(currAgent, 4);
-		if(toTrash.size() > 4){
-			throw new IllegalArgumentException(currPlayer.name + " Chapel'd more than 4");
-		}
-		g.trashFromHand(currPlayer, toTrash);
+		Agent a = g.getCurrentAgent();
+		Action toTR = Controller.throneRoom(a);
+		Player p = g.getCurrentPlayer();
+		p.play(toTR);
+		toTR.takeAction(g, t);
+		p.play(toTR);
+		toTR.takeAction(g, t);
 	}
 	
 	public int getCost(){
@@ -45,11 +44,11 @@ public class ChapelCard implements Card, Action{
 	}
 	
 	public int plusActions(){
-		return plusActions;
+		return plusActs;
 	}
 	
 	public int plusCards(){
-		return plusCards;
+		return plusCrds;
 	}
 	
 	public int plusBuys(){

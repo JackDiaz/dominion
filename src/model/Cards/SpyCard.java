@@ -3,33 +3,38 @@ package model.cards;
 import model.GameState;
 import model.Turn;
 import model.cards.interfaces.Action;
+import model.cards.interfaces.Attack;
 import model.cards.interfaces.Card;
 
-public class FestivalCard implements Card, Action{
+public class SpyCard implements Card, Action, Attack{
 
-	private String name = "Festival";
+	private String name = "Spy";
 	
-	private int cost = 5;
+	private int cost = 4;
 	
-	private int plusCrds = 0;
-	private int plusActs = 2;
-	private int plusBuys = 1;
-	private int plusCash = 2;
+	private int plusCards = 1;
+	private int plusActions = 1;
+	private int plusBuys = 0;
+	private int plusCash = 0;
 	
-	private static FestivalCard instance;
+	private static SpyCard instance;
 
 	
-	public static FestivalCard getInstance(){
+	public static SpyCard getInstance(){
 		if(instance == null){
-			instance = new FestivalCard();
+			instance = new SpyCard();
 		}
 		return instance;
 	}
 
 	public void takeAction(GameState g, Turn t) {
-		t.addActions(this.plusActs);
-		t.addBuys(this.plusBuys);
-		t.addCash(this.plusCash);
+		t.addActions(this.plusActions);
+		g.getCurrentPlayer().draw();
+		this.attack();
+	}
+	
+	public void attack(){
+		// must resolve how to do this
 	}
 	
 	public int getCost(){
@@ -37,11 +42,11 @@ public class FestivalCard implements Card, Action{
 	}
 	
 	public int plusActions(){
-		return plusActs;
+		return plusActions;
 	}
 	
 	public int plusCards(){
-		return plusCrds;
+		return plusCards;
 	}
 	
 	public int plusBuys(){

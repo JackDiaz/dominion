@@ -255,4 +255,16 @@ public class Controller {
 	public static boolean addToHand(Agent a, Card card, Turn turn) {
 		return a.addToHand(card, turn);
 	}
+	
+	public static Treasure trashTreasureFromHand(Agent a){
+		return a.trashTreasureFromHand();
+	}
+	
+	public static Treasure gainTreasureLECost(Agent a, int cost){
+		return a.gainTreasureLECost(cost);
+	}
+	
+	public static Action throneRoom(Agent a){
+		return a.throneRoom();
+	}
 }

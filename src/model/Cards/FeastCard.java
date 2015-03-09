@@ -30,8 +30,9 @@ public class FeastCard implements Card, Action{
 
 	public void takeAction(GameState g, Turn t) {
 		Player currPlayer = g.getCurrentPlayer();
-		currPlayer.removeFromPlay(FeastCard.getInstance());
-		GameState.getTrashPile().add(FeastCard.getInstance());
+		
+		g.trashFromPlay(currPlayer, FeastCard.getInstance());
+		
 		Card card = Controller.gainLECost(g.getCurrentAgent(), 5);
 		currPlayer.gain(card);
 	}

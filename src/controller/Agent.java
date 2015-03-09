@@ -31,4 +31,10 @@ public interface Agent {
 	public Card gainLECost(int cost);
 
 	public boolean addToHand(Card card, Turn turn);
+	
+	public Treasure trashTreasureFromHand();
+	
+	public Treasure gainTreasureLECost(int cost);
+	
+	public Action throneRoom();
 }

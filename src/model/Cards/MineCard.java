@@ -1,7 +1,5 @@
 package model.cards;
 
-import java.util.ArrayList;
-
 import controller.Agent;
 import controller.Controller;
 import model.GameState;
@@ -9,35 +7,41 @@ import model.Player;
 import model.Turn;
 import model.cards.interfaces.Action;
 import model.cards.interfaces.Card;
+import model.cards.interfaces.Treasure;
 
-public class ChapelCard implements Card, Action{
+public class MineCard implements Card, Action{
 
-	private String name = "Chapel";
+	private String name = "Mine";
 	
-	private int cost = 2;
+	private int cost = 5;
 	
 	private int plusActions = 0;
 	private int plusCards = 0;
 	private int plusBuys = 0;
 	private int plusCash = 0;
 	
-	private static ChapelCard instance;
+	private static MineCard instance;
+
 	
-	public static ChapelCard getInstance(){
+	public static MineCard getInstance(){
 		if(instance == null){
-			instance = new ChapelCard();
+			instance = new MineCard();
 		}
 		return instance;
 	}
 
 	public void takeAction(GameState g, Turn t) {
-		Player currPlayer = g.getCurrentPlayer();
+		
 		Agent currAgent = g.getCurrentAgent();
-		ArrayList<Card> toTrash = Controller.trashDecisionLE(currAgent, 4);
-		if(toTrash.size() > 4){
-			throw new IllegalArgumentException(currPlayer.name + " Chapel'd more than 4");
-		}
-		g.trashFromHand(currPlayer, toTrash);
+		Player currPlayer = g.getCurrentPlayer();
+		
+		Treasure trash = Controller.trashTreasureFromHand(currAgent);
+		int gainCost = trash.getCost()+3;
+		Treasure gain = Controller.gainTreasureLECost(currAgent, gainCost);
+		
+		g.trashFromHand(currPlayer, trash);
+		currPlayer.gainIntoHand(gain);
+		
 	}
 	
 	public int getCost(){

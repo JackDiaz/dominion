@@ -29,7 +29,7 @@ public class MoneylenderCard implements Action{
 	public void takeAction(GameState g, Turn t) {
 		Player currPlayer = g.getCurrentPlayer();
 		if(currPlayer.has(CopperCard.getInstance())){
-			currPlayer.trashFromHand(CopperCard.getInstance());
+			g.trashFromHand(currPlayer, CopperCard.getInstance());
 			t.addCash(3);
 		}
 	}

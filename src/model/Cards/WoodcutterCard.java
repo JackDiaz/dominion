@@ -5,29 +5,28 @@ import model.Turn;
 import model.cards.interfaces.Action;
 import model.cards.interfaces.Card;
 
-public class FestivalCard implements Card, Action{
+public class WoodcutterCard implements Card, Action{
 
-	private String name = "Festival";
+	private String name = "Woodcutter";
 	
-	private int cost = 5;
+	private int cost = 3;
 	
 	private int plusCrds = 0;
-	private int plusActs = 2;
+	private int plusActs = 0;
 	private int plusBuys = 1;
 	private int plusCash = 2;
 	
-	private static FestivalCard instance;
+	private static WoodcutterCard instance;
 
 	
-	public static FestivalCard getInstance(){
+	public static WoodcutterCard getInstance(){
 		if(instance == null){
-			instance = new FestivalCard();
+			instance = new WoodcutterCard();
 		}
 		return instance;
 	}
 
 	public void takeAction(GameState g, Turn t) {
-		t.addActions(this.plusActs);
 		t.addBuys(this.plusBuys);
 		t.addCash(this.plusCash);
 	}

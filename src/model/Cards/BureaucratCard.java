@@ -47,6 +47,10 @@ public class BureaucratCard implements Card, Action, Attack{
 			}
 		}
 	}
+	
+	public void attack(){
+		
+	}
 
 	public int getCost(){
 		return cost;

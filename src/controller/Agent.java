@@ -15,8 +15,6 @@ public interface Agent {
 
 	public ArrayList<Treasure> treasureList();
 
-	public Card gainCard(String prop, int value);
-
 	public ArrayList<Card> trashDecisionLE(int num);
 	
 	public ArrayList<Card> trashDecisionE(int num);
@@ -29,5 +27,7 @@ public interface Agent {
 	
 	public boolean discardDeck();
 	
-	public Card gainLE(int num);
+	public Card gainLECost(int num);
+
+	public boolean addToHand(Card card);
 }

@@ -13,6 +13,7 @@ public class Player {
 	private Discard dis;
 	private ArrayList<Card> hand;
 	private ArrayList<Card> inPlay;
+	private int totalTurns;
 
 	protected Player(){
 		this.deck = new Deck();
@@ -20,9 +21,20 @@ public class Player {
 		this.inPlay = new ArrayList<Card>();
 		this.dis = new Discard();
 		this.drawHand();
+		this.totalTurns = 0;
 	}
-
-	// protected doesn't work for subpackages =(
+	
+	public void addTurn(){
+		this.totalTurns++;
+	}
+	
+	public ArrayList<Card> getDiscardList(){
+		return dis.get();
+	}
+	
+	public int getTotalTurns(){
+		return this.totalTurns;
+	}
 
 	public void shuffle(){
 		deck.addDiscardPile(dis);
@@ -151,9 +163,6 @@ public class Player {
 		}
 	}
 
-
-	// public methods for use by controllers
-
 	public boolean has(Card c){
 		for(Card h : hand){
 			if(h.equals(c)){
@@ -184,6 +193,37 @@ public class Player {
 			this.removeFromHand(c);
 		}
 	}
+	
+	public int handSize(){
+		return hand.size();
+	}
+	
+	public int deckSize(){
+		return deck.size();
+	}
+	
+	public int discardSize(){
+		return dis.size();
+	}
+	
+	public Card viewTop(){
+		return deck.lookAtCard(0);
+	}
+	
+	public ArrayList<Card> viewTop(int x){
+		ArrayList<Card> ret = new ArrayList<Card>();
+		for(int i = 0; i < x; i++){
+			ret.add(deck.lookAtCard(i));
+		}
+		return ret;
+	}
 
+	public Card removeTop(){
+		if(deck.size() == 0){
+			deck.addDiscardPile(dis);
+			dis.clear();
+		}
+		return deck.remove(0);
+	}
 
 }

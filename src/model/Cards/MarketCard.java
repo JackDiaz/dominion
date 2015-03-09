@@ -1,40 +1,34 @@
 package model.cards;
 
 import model.GameState;
-import model.Player;
 import model.Turn;
 import model.cards.interfaces.Action;
 import model.cards.interfaces.Card;
 
-public class CouncilRoomCard implements Card, Action{
+public class MarketCard implements Card, Action{
 
 	private int cost = 5;
 	
-	private int plusActions = 0;
-	private int plusCards = 4;
+	private int plusActions = 1;
+	private int plusCards = 1;
 	private int plusBuys = 1;
-	private int plusCash = 0;
+	private int plusCash = 1;
 	
-	private static CouncilRoomCard instance;
+	private static MarketCard instance;
 
 	
-	public static CouncilRoomCard getInstance(){
+	public static MarketCard getInstance(){
 		if(instance == null){
-			instance = new CouncilRoomCard();
+			instance = new MarketCard();
 		}
 		return instance;
 	}
 
 	public void takeAction(GameState g, Turn t) {
-		Player currPlayer = g.getCurrentPlayer();
-		currPlayer.draw(plusCards);
+		g.getCurrentPlayer().draw();
+		t.addActions(plusActions);
 		t.addBuys(plusBuys);
-		for(Player p : g.getPlayers()){
-			if(!p.equals(currPlayer)){
-				p.draw();
-			}
-		}
-		
+		t.addCash(plusCash);
 	}
 	
 	public int getCost(){

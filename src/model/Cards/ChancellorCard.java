@@ -10,8 +10,12 @@ import model.cards.interfaces.Card;
 public class ChancellorCard implements Card, Action{
 
 	private int cost = 3;
+	
 	private int plusActions = 0;
+	private int plusCards = 0;
+	private int plusBuys = 0;
 	private int plusCash = 2;
+	
 	private static ChancellorCard instance;
 
 	
@@ -22,10 +26,10 @@ public class ChancellorCard implements Card, Action{
 		return instance;
 	}
 
-	public void takeAction(Controller c, GameState g, Turn t) {
+	public void takeAction(GameState g, Turn t) {
 		Player currPlayer = g.getCurrentPlayer();
 		t.addCash(plusCash);
-		boolean discardDeck = c.discardDeck(g.getCurrentAgent());
+		boolean discardDeck = Controller.discardDeck(g.getCurrentAgent());
 		if(discardDeck){
 			currPlayer.discardDeck();
 		}
@@ -37,5 +41,17 @@ public class ChancellorCard implements Card, Action{
 	
 	public int plusActions(){
 		return plusActions;
+	}
+	
+	public int plusCards(){
+		return plusCards;
+	}
+	
+	public int plusBuys(){
+		return plusBuys;
+	}
+	
+	public int plusCash(){
+		return plusCash;
 	}
 }

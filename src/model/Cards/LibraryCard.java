@@ -1,6 +1,6 @@
 package model.cards;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 import controller.Agent;
 import controller.Controller;
@@ -8,25 +8,23 @@ import model.GameState;
 import model.Player;
 import model.Turn;
 import model.cards.interfaces.Action;
-import model.cards.interfaces.Attack;
 import model.cards.interfaces.Card;
-import model.cards.interfaces.Victory;
 
-public class BureaucratCard implements Card, Action, Attack{
+public class LibraryCard implements Card, Action{
 
-	private int cost = 4;
-	
+	private int cost = 5;
+
 	private int plusActions = 0;
 	private int plusCards = 0;
 	private int plusBuys = 0;
 	private int plusCash = 0;
-	
-	private static BureaucratCard instance;
+
+	private static LibraryCard instance;
 
 
-	public static BureaucratCard getInstance(){
+	public static LibraryCard getInstance(){
 		if(instance == null){
-			instance = new BureaucratCard();
+			instance = new LibraryCard();
 		}
 		return instance;
 	}
@@ -34,16 +32,23 @@ public class BureaucratCard implements Card, Action, Attack{
 	public void takeAction(GameState g, Turn t) {
 		Player currPlayer = g.getCurrentPlayer();
 		Agent currAgent = g.getCurrentAgent();
-		HashMap<Agent, Player> agentPlayer = g.getAgentPlayer();
-		currPlayer.putOnTopOfDeck(SilverCard.getInstance());
-		for(Agent a : g.getAgents()){
-			if(!a.equals(currAgent)){
-				Victory v = Controller.victoryCardOnTop(a);
-				Player p = agentPlayer.get(a);
-				p.removeFromHand(v);
-				p.putOnTopOfDeck(v);
+		Card card;
+		ArrayList<Card> discard = new ArrayList<Card>();
+		while(currPlayer.handSize() < 7 
+				&& (currPlayer.deckSize() > 0 || currPlayer.discardSize() > 0)){
+			card = currPlayer.viewTop();
+			if(card instanceof Action){
+				boolean add = Controller.addToHand(currAgent, card);
+				if(add){
+					currPlayer.draw();
+				}else{
+					discard.add(currPlayer.removeTop());
+				}
+			}else{
+				discard.add(card);
 			}
 		}
+		currPlayer.addToDiscard(discard);
 	}
 
 	public int getCost(){
@@ -53,15 +58,15 @@ public class BureaucratCard implements Card, Action, Attack{
 	public int plusActions(){
 		return plusActions;
 	}
-	
+
 	public int plusCards(){
 		return plusCards;
 	}
-	
+
 	public int plusBuys(){
 		return plusBuys;
 	}
-	
+
 	public int plusCash(){
 		return plusCash;
 	}

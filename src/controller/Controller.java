@@ -1,14 +1,17 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import model.GameEngine;
 import model.GameState;
 import model.Player;
 import model.Turn;
+import model.cards.GardensCard;
 import model.cards.LaboratoryCard;
 import model.cards.interfaces.Action;
 import model.cards.interfaces.Card;
+import model.cards.interfaces.Curse;
 import model.cards.interfaces.Treasure;
 import model.cards.interfaces.Victory;
 
@@ -17,22 +20,13 @@ public class Controller {
 	GameEngine ge;
 	Agent currAgent;
 	Turn turn;
-	private static Controller instance;
 
 	private Controller(GameState gs, GameEngine ge){
 		this.gs = gs;
 		this.ge = ge;
 	}
 
-	public static void setInstance(GameState gs, GameEngine ge){
-		instance = new Controller(gs, ge);
-	}
-
-	public static Controller getInstance(){
-		return instance;
-	}
-
-	public void start(){
+	public HashMap<String, ArrayList<Agent>> start(){
 
 		boolean gameIsOver = false;
 		this.turn();
@@ -46,7 +40,83 @@ public class Controller {
 				this.turn();
 			}
 		}
-		// game's over, do stuff
+
+		// game's over
+		ArrayList<Player> players = this.gs.getPlayers();
+		int highScore = -500;
+		int winTurns = Integer.MAX_VALUE;
+		ArrayList<Agent> winners = new ArrayList<Agent>();
+		HashMap<Player, Agent> playerAgent = gs.getPlayerAgent();
+		HashMap<String, ArrayList<Agent>> ret = new HashMap<String, ArrayList<Agent>>();
+		ArrayList<Agent> losers = new ArrayList<Agent>();
+
+		for(Player p : players){
+			int score = this.calculateScore(p);
+			int turns = p.getTotalTurns();
+			if(score > highScore){
+
+				highScore = score;
+
+				winTurns = turns;
+
+				winners = new ArrayList<Agent>();
+				winners.add(playerAgent.get(p));
+
+			}else if(score == highScore
+					&& turns == winTurns){
+
+				winners.add(playerAgent.get(p));
+
+			}else if(score == highScore
+					&& turns <= winTurns){
+				
+				winTurns = turns;
+				
+				winners = new ArrayList<Agent>();
+				winners.add(playerAgent.get(p));
+
+			}
+		}
+		
+		ret.put("winners", winners);
+
+		for(Agent a : gs.getAgents()){
+			if(!winners.contains(a)){
+				losers.add(a);
+			}
+		}
+
+		ret.put("losers", losers);
+		return ret;
+	}
+	
+	private int calculateScore(Player p){
+		p.discardDeck();
+		p.discardCardsInPlay();
+		p.discardHand();
+		ArrayList<Card> cards = p.getDiscardList();
+		int gardens = 0;
+		int curses = 0;
+		int vp = 0;
+		int totalScore = 0;
+		
+		for(Card c : cards){
+			if(c instanceof Victory){
+				if(c instanceof GardensCard){
+					gardens++;
+				}else{
+					vp += ((Victory) c).getVP();
+				}
+			}else if(c instanceof Curse){
+				curses++;
+			}
+		}
+		
+		totalScore += vp;
+		totalScore += gardens*((int)Math.floor(cards.size()/10));
+		totalScore -= curses;
+		return totalScore;
+		
 	}
 
 	public static void main(String args[]){
@@ -54,8 +124,7 @@ public class Controller {
 		kingdomCards.add(LaboratoryCard.getInstance());
 		GameState gs = new GameState(kingdomCards);
 		GameEngine ge = new GameEngine(gs);
-		Controller.setInstance(gs, ge);
-		Controller c = Controller.getInstance();
+		Controller c = new Controller(gs, ge);
 		c.start();
 	}
 
@@ -66,6 +135,7 @@ public class Controller {
 		ArrayList<Treasure> treList;
 		ArrayList<Card> buyList;
 
+		currPlayer.addTurn();
 
 		actList = this.getActList();
 		while(turn.getNumActions() > 0 
@@ -99,42 +169,6 @@ public class Controller {
 		currPlayer.cleanUp();
 	}
 
-	public ArrayList<Card> trashDecisionLE(Agent a, int num){
-		return a.trashDecisionLE(num);
-	}
-
-	public ArrayList<Card> trashDecisionE(Agent a, int num){
-		return a.trashDecisionE(num);
-	}
-
-	public ArrayList<Card> discardDownTo(Agent a, int num){
-		return a.discardDownTo(num);
-	}
-	
-	public Victory victoryCardOnTop(Agent a){
-		
-		return a.victoryCardOnTop();
-		
-	}
-	
-	public ArrayList<Card> discardToDraw(Agent a){
-		return a.discardToDraw();
-	}
-	
-	public boolean discardDeck(Agent a){
-		return a.discardDeck();
-	}
-
-	public Card gainLE(Agent a, int num){
-		return a.gainLE(num);
-	}
-
-
-
-
-
-
-
 	private ArrayList<Action> getActList(){
 		// when playing with humans this would get the info from the view
 		// but right now we're only worried about AI
@@ -160,5 +194,42 @@ public class Controller {
 	}
 
 
+	// === S T A T I C   M E T H O D S ===
 
+	// used by cards
+
+	public static ArrayList<Card> trashDecisionLE(Agent a, int num){
+		return a.trashDecisionLE(num);
+	}
+
+	public static ArrayList<Card> trashDecisionE(Agent a, int num){
+		return a.trashDecisionE(num);
+	}
+
+	public static ArrayList<Card> discardDownTo(Agent a, int num){
+		return a.discardDownTo(num);
+	}
+
+	public static Victory victoryCardOnTop(Agent a){
+
+		return a.victoryCardOnTop();
+
+	}
+
+	public static ArrayList<Card> discardToDraw(Agent a){
+		return a.discardToDraw();
+	}
+
+	public static boolean discardDeck(Agent a){
+		return a.discardDeck();
+	}
+
+	public static Card gainLECost(Agent a, int num){
+		return a.gainLECost(num);
+	}
+
+
+	public static boolean addToHand(Agent a, Card card) {
+		return a.addToHand(card);
+	}
 }

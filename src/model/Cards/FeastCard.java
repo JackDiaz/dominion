@@ -26,11 +26,11 @@ public class FeastCard implements Card, Action{
 		return instance;
 	}
 
-	public void takeAction(Controller c, GameState g, Turn t) {
+	public void takeAction(GameState g, Turn t) {
 		Player currPlayer = g.getCurrentPlayer();
 		currPlayer.removeFromPlay(FeastCard.getInstance());
 		g.getTrashPile().add(FeastCard.getInstance());
-		Card card = c.gainLE(g.getCurrentAgent(), 5);
+		Card card = Controller.gainLECost(g.getCurrentAgent(), 5);
 		currPlayer.addToDiscard(card);
 	}
 	

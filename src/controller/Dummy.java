@@ -73,12 +73,6 @@ public class Dummy implements Agent{
 	}
 
 	@Override
-	public Card gainCard(String prop, int value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public ArrayList<Card> trashDecisionLE(int num) {
 		// TODO Auto-generated method stub
 		return null;
@@ -114,9 +108,15 @@ public class Dummy implements Agent{
 	}
 
 	@Override
-	public Card gainLE(int num) {
+	public Card gainLECost(int num) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean addToHand(Card card) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

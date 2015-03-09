@@ -14,6 +14,7 @@ public class GameState {
 	private ArrayList<Agent> agents;
 	
 	private HashMap<Agent, Player> agentPlayer;
+	private HashMap<Player, Agent> playerAgent;
 	
 	private int first;
 	
@@ -33,15 +34,20 @@ public class GameState {
 		this.agents.add(new Dummy(players.get(0)));
 		this.agents.add(new Dummy(players.get(1)));		
 		for(int i = 0; i < numPlayers; i++){
-			agentPlayer.put(agents.get(i), players.get(i));
+			Player player = players.get(i);
+			Agent agent = agents.get(i);
+			agentPlayer.put(agent, player);
+			playerAgent.put(player, agent);
 		}
 		this.sup = new Supply(kingdomCards);
 		this.numPlayers = players.size();
+		
 		if(Math.random() < .5){
 			this.first = 0;
 		}else{
 			this.first = 1;
 		}
+		
 		this.currentPlayer = players.get(first);
 		this.currentAgent = agents.get(first);
 		this.playerNumber = first;
@@ -88,6 +94,10 @@ public class GameState {
 	
 	public HashMap<Agent,Player> getAgentPlayer(){
 		return agentPlayer;
+	}
+	
+	public HashMap<Player,Agent> getPlayerAgent(){
+		return playerAgent;
 	}
 	
 	public void nextPlayer(){

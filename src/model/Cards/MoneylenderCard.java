@@ -1,7 +1,6 @@
 package model.cards;
 
 
-import controller.Controller;
 import model.GameState;
 import model.Player;
 import model.Turn;
@@ -10,6 +9,12 @@ import model.cards.interfaces.Action;
 public class MoneylenderCard implements Action{
 
 	private int cost = 4;
+	
+	private int plusActions = 0;
+	private int plusCards = 0;
+	private int plusBuys = 0;
+	private int plusCash = 0;
+	
 	private static MoneylenderCard instance;
 
 	public static MoneylenderCard getInstance(){
@@ -19,7 +24,7 @@ public class MoneylenderCard implements Action{
 		return instance;
 	}
 
-	public void takeAction(Controller c, GameState g, Turn t) {
+	public void takeAction(GameState g, Turn t) {
 		Player currPlayer = g.getCurrentPlayer();
 		if(currPlayer.has(CopperCard.getInstance())){
 			currPlayer.removeFromHand(CopperCard.getInstance());
@@ -33,7 +38,19 @@ public class MoneylenderCard implements Action{
 	}
 
 	public int plusActions(){
-		return 0;
+		return plusActions;
+	}
+	
+	public int plusCards(){
+		return plusCards;
+	}
+	
+	public int plusBuys(){
+		return plusBuys;
+	}
+	
+	public int plusCash(){
+		return plusCash;
 	}
 }
 

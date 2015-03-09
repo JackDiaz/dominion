@@ -16,10 +16,12 @@ import controller.Controller;
 
 public class MilitiaCard implements Card, Action, Attack{
 
-	int cost = 4;
-	int plusActions = 0;
-	int plusDraw = 0;
-	int plusCash = 2;
+	private int cost = 4;
+	
+	private int plusActions = 0;
+	private int plusCards = 0;
+	private int plusBuys = 0;
+	private int plusCash = 2;
 	
 	
 	
@@ -34,12 +36,12 @@ public class MilitiaCard implements Card, Action, Attack{
 		return instance;
 	}
 
-	public void takeAction(Controller c, GameState g, Turn t) {
+	public void takeAction(GameState g, Turn t) {
 		Agent currAgent = g.getCurrentAgent();
 		HashMap<Agent, Player> agentPlayer = g.getAgentPlayer();
 		for(Agent agent : g.getAgents()){
 			if(!agent.equals(currAgent)){
-				ArrayList<Card> dis = c.discardDownTo(agent, 3);
+				ArrayList<Card> dis = Controller.discardDownTo(agent, 3);
 				Player p = agentPlayer.get(agent);
 				for(Card card : dis){
 					p.discard(card);
@@ -57,12 +59,16 @@ public class MilitiaCard implements Card, Action, Attack{
 		return plusActions;
 	}
 	
-	public int plusCash(){
-		return plusCash;
+	public int plusCards(){
+		return plusCards;
 	}
 	
-	public int plusDraw(){
-		return plusDraw;
+	public int plusBuys(){
+		return plusBuys;
+	}
+	
+	public int plusCash(){
+		return plusCash;
 	}
 
 }

@@ -1,6 +1,5 @@
 package model.cards;
 
-import controller.Controller;
 import model.GameState;
 import model.Player;
 import model.Turn;
@@ -9,10 +8,12 @@ import model.cards.interfaces.Card;
 
 public class SmithyCard implements Card, Action{
 
-	int cost = 4;
-	int plusCards = 3;
-	int plusActions = 0;
+	private int cost = 4;
 	
+	private int plusCards = 3;
+	private int plusActions = 0;
+	private int plusBuys = 0;
+	private int plusCash = 0;
 	
 	private static SmithyCard instance;
 	
@@ -23,7 +24,7 @@ public class SmithyCard implements Card, Action{
 		return instance;
 	}
 
-	public void takeAction(Controller c, GameState g, Turn t) {
+	public void takeAction(GameState g, Turn t) {
 		Player currentPlayer = g.getCurrentPlayer();
 		currentPlayer.draw(plusCards);
 	}
@@ -38,5 +39,13 @@ public class SmithyCard implements Card, Action{
 	
 	public int plusCards(){
 		return plusCards;
+	}
+	
+	public int plusBuys(){
+		return plusBuys;
+	}
+	
+	public int plusCash(){
+		return plusCash;
 	}
 }

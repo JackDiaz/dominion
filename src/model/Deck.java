@@ -67,4 +67,8 @@ public class Deck {
 		deck.add(i, c);
 	}
 	
+	Card remove(int i){
+		return deck.remove(i);
+	}
+	
 }

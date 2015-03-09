@@ -13,8 +13,13 @@ import model.cards.interfaces.Card;
 public class ChapelCard implements Card, Action{
 
 	private int cost = 2;
-	private static ChapelCard instance;
+	
 	private int plusActions = 0;
+	private int plusCards = 0;
+	private int plusBuys = 0;
+	private int plusCash = 0;
+	
+	private static ChapelCard instance;
 	
 	public static ChapelCard getInstance(){
 		if(instance == null){
@@ -23,10 +28,10 @@ public class ChapelCard implements Card, Action{
 		return instance;
 	}
 
-	public void takeAction(Controller c, GameState g, Turn t) {
+	public void takeAction(GameState g, Turn t) {
 		Player currPlayer = g.getCurrentPlayer();
 		Agent currController = g.getCurrentAgent();
-		ArrayList<Card> toTrash = c.trashDecisionLE(currController, 4);
+		ArrayList<Card> toTrash = Controller.trashDecisionLE(currController, 4);
 		currPlayer.removeFromHand(toTrash);
 		g.getTrashPile().addAll(toTrash);
 	}
@@ -37,5 +42,17 @@ public class ChapelCard implements Card, Action{
 	
 	public int plusActions(){
 		return plusActions;
+	}
+	
+	public int plusCards(){
+		return plusCards;
+	}
+	
+	public int plusBuys(){
+		return plusBuys;
+	}
+	
+	public int plusCash(){
+		return plusCash;
 	}
 }

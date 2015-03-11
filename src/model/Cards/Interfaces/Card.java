@@ -1,15 +1,12 @@
 package model.cards.interfaces;
 
 public interface Card {
-	/*String name;
-	CardType type;
-	//ArrayList<Effect> effects();
-	int cost;
-	int value;
-	int victoryPoints;*/
 
 	public int getCost();
+	// change to cost object when you care about potions
 	
 	public String getName();
+	
+	public String toString();
 	
 }

@@ -13,9 +13,11 @@ import model.cards.GardensCard;
 import model.cards.LaboratoryCard;
 import model.cards.MarketCard;
 import model.cards.VillageCard;
+import model.cards.WalledVillageCard;
 import model.cards.interfaces.Action;
 import model.cards.interfaces.Card;
 import model.cards.interfaces.Curse;
+import model.cards.interfaces.Duration;
 import model.cards.interfaces.Treasure;
 import model.cards.interfaces.Victory;
 
@@ -23,7 +25,7 @@ public class Controller {
 	GameState gs;
 	GameEngine ge;
 	Agent currAgent;
-	Turn turn;
+	//Turn turn;
 
 	private Controller(GameState gs, GameEngine ge){
 		this.gs = gs;
@@ -33,23 +35,26 @@ public class Controller {
 	public HashMap<String, ArrayList<Agent>> start(){
 
 		boolean gameIsOver = false;
-		this.turn();
+		this.executeTurn();
 
 		// game loop
 		while(!gameIsOver){
 			if(ge.gameIsOver()){
 				gameIsOver = true;
 			}else{
-				
+
 				gs.nextPlayer();
-				
+
 				System.out.println();
 				for(Player p : gs.getPlayers()){
-					System.out.println(p.name + " Score: " + p.currentScore + " Num Turns: " + p.getTotalTurns() + " " + p.cards);
+					System.out.println(p.getName() 
+							+ " Score: " + p.getScore() 
+							+ " Num Turns: " + p.getTotalTurns() + " " 
+							+ p.getDeckContents());
 				}
 				System.out.println();
 
-				this.turn();
+				this.executeTurn();
 			}
 		}
 
@@ -63,12 +68,15 @@ public class Controller {
 		ArrayList<Agent> losers = new ArrayList<Agent>();
 
 		System.out.println();
-		
+
 		for(Player p : players){
 			int score = this.calculateScore(p);
 			int turns = p.getTotalTurns();
-			
-			System.out.println(p.name + " Score: " + score + " Num Turns: " + turns + " " + p.cards);
+
+			System.out.println(p.getName() 
+					+ " Score: " + score 
+					+ " Num Turns: " + turns + " " 
+					+ p.getDeckContents());
 
 			if(score > highScore){
 
@@ -86,15 +94,15 @@ public class Controller {
 
 			}else if(score == highScore
 					&& turns <= winTurns){
-				
+
 				winTurns = turns;
-				
+
 				winners = new ArrayList<Agent>();
 				winners.add(playerAgent.get(p));
 
 			}
 		}
-		
+
 		ret.put("winners", winners);
 
 		for(Agent a : gs.getAgents()){
@@ -106,7 +114,7 @@ public class Controller {
 		ret.put("losers", losers);
 		return ret;
 	}
-	
+
 	private int calculateScore(Player p){
 		p.discardDeck();
 		p.discardCardsInPlay();
@@ -116,7 +124,7 @@ public class Controller {
 		int curses = 0;
 		int vp = 0;
 		int totalScore = 0;
-		
+
 		for(Card c : cards){
 			if(c instanceof Victory){
 				if(c instanceof GardensCard){
@@ -128,44 +136,54 @@ public class Controller {
 				curses++;
 			}
 		}
-		
+
 		totalScore += vp;
 		totalScore += gardens*((int)Math.floor(cards.size()/10));
 		totalScore -= curses;
 		return totalScore;
-		
+
 	}
 
 	public static void main(String args[]){
 		ArrayList<Card> kingdomCards = new ArrayList<Card>();
-		
+
 		kingdomCards.add(LaboratoryCard.getInstance());
 		kingdomCards.add(MarketCard.getInstance());
 		kingdomCards.add(VillageCard.getInstance());
 		kingdomCards.add(ChapelCard.getInstance());
 		kingdomCards.add(FestivalCard.getInstance());
 
-		GameState gs = new GameState(kingdomCards);
+		Turn turn = new Turn();
+		GameState gs = new GameState(kingdomCards, turn);
 		GameEngine ge = new GameEngine(gs);
 		Controller c = new Controller(gs, ge);
 		c.start();
 	}
 
-	public void turn(){
+	public void executeTurn(){
 		Player currPlayer = gs.getCurrentPlayer();
-		this.turn = new Turn();
+		gs.getTurn().newTurn();
 		ArrayList<Action> actList;
 		ArrayList<Treasure> treList;
 		ArrayList<Card> buyList;
 
 		currPlayer.addTurn();
 
+		ArrayList<Duration> durations = currPlayer.getDurations();
+		if(!durations.isEmpty()){
+			for(Duration d : durations){
+				d.duration(gs, gs.getTurn());
+			}
+		}
+		currPlayer.clearDurations();
+
+
 		actList = this.getActList();
-		while(turn.getNumActions() > 0 
+		while(gs.getTurn().getNumActions() > 0 
 				&& actList != null
 				&& !actList.isEmpty()){
 
-			ge.actionPhase(turn, actList, currPlayer);
+			ge.actionPhase(gs.getTurn(), actList, currPlayer);
 			actList = this.getActList();
 		}
 
@@ -174,21 +192,28 @@ public class Controller {
 		while(treList != null
 				&& !treList.isEmpty()){
 
-			ge.treasurePhase(turn, treList, currPlayer);
+			ge.treasurePhase(gs.getTurn(), treList, currPlayer);
 			treList = this.getTreList();
 		}
 
 
 		buyList = this.getBuyList();
-		while(turn.getNumBuys() > 0
+		while(gs.getTurn().getNumBuys() > 0
 				&& buyList != null
 				&& !buyList.isEmpty()){
 
-			ge.buyPhase(turn, buyList, currPlayer);
+			ge.buyPhase(gs.getTurn(), buyList, currPlayer);
 			buyList = this.getBuyList();
 		}
 
 		// clean up and draw phase
+		if(currPlayer.hasInPlay(WalledVillageCard.getInstance()) 
+				&& currPlayer.numActionsInPlay() <= 2){
+			if(Controller.walledVillage(gs.getCurrentAgent())){
+				currPlayer.removeFromPlay(WalledVillageCard.getInstance());
+				currPlayer.putOnTopOfDeck(WalledVillageCard.getInstance());
+			}
+		}
 		currPlayer.cleanUp();
 	}
 
@@ -197,7 +222,7 @@ public class Controller {
 		// but right now we're only worried about AI
 
 		currAgent = gs.getCurrentAgent();
-		return currAgent.actionList(turn.getNumActions());
+		return currAgent.actionList();
 	}
 
 	private ArrayList<Treasure> getTreList(){
@@ -213,7 +238,7 @@ public class Controller {
 		// but right now we're only worried about AI
 
 		currAgent = gs.getCurrentAgent();
-		return currAgent.buyList(turn.getNumBuys(), turn.getCash());
+		return currAgent.buyList(gs.getTurn().getNumBuys(), gs.getTurn().getCash());
 	}
 
 
@@ -242,6 +267,14 @@ public class Controller {
 	public static ArrayList<Card> discardToDraw(Agent a){
 		return a.discardToDraw();
 	}
+	
+	public static Card discardForAction(Agent a){
+		return a.discardForAction();
+	}
+	
+	public static Card discardForBuy(Agent a){
+		return a.discardForBuy();
+	}
 
 	public static boolean discardDeck(Agent a){
 		return a.discardDeck();
@@ -255,16 +288,33 @@ public class Controller {
 	public static boolean addToHand(Agent a, Card card, Turn turn) {
 		return a.addToHand(card, turn);
 	}
-	
+
 	public static Treasure trashTreasureFromHand(Agent a){
 		return a.trashTreasureFromHand();
 	}
-	
+
 	public static Treasure gainTreasureLECost(Agent a, int cost){
 		return a.gainTreasureLECost(cost);
 	}
 	
+	public static Action gainActionLECost(Agent a, int cost){
+		return a.gainActionLECost(cost);
+	}
+
 	public static Action throneRoom(Agent a){
 		return a.throneRoom();
 	}
+	
+	public static boolean trashMiningVillage(Agent a){
+		return a.trashMiningVillage();
+	}
+	
+	public static boolean nativeVillage(Agent a){
+		return a.nativeVillage();
+	}
+	
+	public static boolean walledVillage(Agent a){
+		return a.walledVillage();
+	}
+
 }

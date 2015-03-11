@@ -11,7 +11,7 @@ import model.cards.ProvinceCard;
 import model.cards.SilverCard;
 import model.cards.interfaces.Card;
 
-public class Supply {
+public class Supply implements SupplyScope{
 
 	HashMap<Card,Integer> sup;
 
@@ -54,6 +54,15 @@ public class Supply {
 	}
 
 	public boolean threeAreEmpty(){
+		int numEmpty = this.numberEmpty();
+
+		if(numEmpty < 3){
+			return false;
+		}
+		return true;
+	}
+	
+	public int numberEmpty(){
 		int numEmpty = 0;
 
 		for(Integer i : sup.values()){
@@ -61,11 +70,7 @@ public class Supply {
 				numEmpty++;
 			}
 		}
-
-		if(numEmpty < 3){
-			return false;
-		}
-		return true;
+		return numEmpty;
 	}
 
 	public boolean noProvinces(){

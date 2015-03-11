@@ -1,8 +1,5 @@
 package model.cards;
 
-import java.util.ArrayList;
-
-import controller.Agent;
 import controller.Controller;
 import model.GameState;
 import model.Player;
@@ -10,34 +7,39 @@ import model.Turn;
 import model.cards.interfaces.Action;
 import model.cards.interfaces.Card;
 
-public class ChapelCard implements Card, Action{
+public class NativeVillageCard implements Card, Action{
 
-	private String name = "Chapel";
+	private String name = "Native Village";
 	
 	private int cost = 2;
 	
-	private int plusActions = 0;
-	private int plusCards = 0;
+	private int plusCrds = 0;
+	private int plusActs = 2;
 	private int plusBuys = 0;
 	private int plusCash = 0;
 	
-	private static ChapelCard instance;
+	private static NativeVillageCard instance;
+
 	
-	public static ChapelCard getInstance(){
+	public static NativeVillageCard getInstance(){
 		if(instance == null){
-			instance = new ChapelCard();
+			instance = new NativeVillageCard();
 		}
 		return instance;
 	}
 
 	public void takeAction(GameState g, Turn t) {
-		Player currPlayer = g.getCurrentPlayer();
-		Agent currAgent = g.getCurrentAgent();
-		ArrayList<Card> toTrash = Controller.trashDecisionLE(currAgent, 4);
-		if(toTrash.size() > 4){
-			throw new IllegalArgumentException(currPlayer.getName() + " Chapel'd more than 4");
+		t.addActions(this.plusActs);
+		Player p = g.getCurrentPlayer();
+		if(Controller.nativeVillage(g.getCurrentAgent())){
+			Card c = p.removeTop();
+			p.addToNVM(c);
+		}else{
+			for(Card c : p.getNVM()){
+				p.addToHand(c);
+			}
+			p.clearNVM();
 		}
-		g.trashFromHand(currPlayer, toTrash);
 	}
 	
 	public int getCost(){
@@ -45,11 +47,11 @@ public class ChapelCard implements Card, Action{
 	}
 	
 	public int plusActions(){
-		return plusActions;
+		return plusActs;
 	}
 	
 	public int plusCards(){
-		return plusCards;
+		return plusCrds;
 	}
 	
 	public int plusBuys(){

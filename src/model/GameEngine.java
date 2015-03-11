@@ -45,7 +45,10 @@ public class GameEngine {
 		int cash = turn.getCash();
 		if(buyList.size() <= turn.getNumBuys()){
 			for(Card card : buyList){
-				int cost = card.getCost();
+				int cost = card.getCost() + turn.getCostModifier();
+				if(card instanceof Action){
+					cost += turn.getActionCostModifier();
+				}
 				if(gs.getSupply().has(card) && cost <= cash){
 					turn.decrementBuys();
 					cash -= cost;

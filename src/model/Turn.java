@@ -1,15 +1,30 @@
 package model;
 
-public class Turn {
+import model.cards.interfaces.Action;
+import model.cards.interfaces.Card;
+
+public class Turn implements TurnScope {
 	
-	int numActions;
-	int numBuys;
-	int cash;
+	private int numActions;
+	private int numBuys;
+	private int cash;
+	private int actionCostModifier;
+	private int costModifier;
 	
 	public Turn(){
 		this.numActions = 1;
 		this.numBuys = 1;
 		this.cash = 0;
+		this.actionCostModifier = 0;
+		this.costModifier = 0;
+	}
+	
+	public void newTurn(){
+		this.numActions = 1;
+		this.numBuys = 1;
+		this.cash = 0;
+		this.actionCostModifier = 0;
+		this.costModifier = 0;
 	}
 	
 	public int getNumActions(){
@@ -48,7 +63,21 @@ public class Turn {
 		this.numBuys += b;
 	}
 	
+	public int getActionCostModifier(){
+		return actionCostModifier;
+	}
 	
+	public int getCostModifier(){
+		return costModifier;
+	}
+	
+	public int getCostAfterModifiers(Card c){
+		if(c instanceof Action){
+			return c.getCost()+costModifier+actionCostModifier;
+		}else{
+			return c.getCost()+costModifier;
+		}
+	}
 	
 	
 }

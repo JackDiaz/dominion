@@ -1,6 +1,6 @@
 package model.cards.interfaces;
 
-public interface Reaction extends Action{
+public interface Reaction {
 	
 	public void react();
 

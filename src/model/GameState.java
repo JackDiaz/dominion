@@ -6,7 +6,8 @@ import java.util.HashMap;
 import model.cards.FeastCard;
 import model.cards.interfaces.Card;
 import controller.Agent;
-import controller.Dummy;
+import controller.ChapelMoneyAI;
+import controller.DummyAI;
 
 public class GameState {
 	private ArrayList<Player> players;
@@ -28,8 +29,9 @@ public class GameState {
 	// and dis-ensnare the state stuff while you're at it!!!
 	private ArrayList<Card> trashPile = new ArrayList<Card>();
 	private int playerNumber;
+	private Turn turn;
 	
-	public GameState(ArrayList<Card> kingdomCards){
+	public GameState(ArrayList<Card> kingdomCards, Turn turn){
 		this.players = new ArrayList<Player>();
 		this.players.add(new Player("Justin"));
 		this.players.add(new Player("Robbie"));
@@ -37,8 +39,10 @@ public class GameState {
 		
 		this.sup = new Supply(kingdomCards);
 		
-		this.agents.add(new Dummy(players.get(0), players.get(1), sup));
-		this.agents.add(new Dummy(players.get(1), players.get(0), sup));
+		this.turn = turn;
+		
+		this.agents.add(new DummyAI(players.get(0), players.get(1), sup, this.turn));
+		this.agents.add(new ChapelMoneyAI(players.get(1), players.get(0), sup, this.turn));
 		
 		this.agentPlayer = new HashMap<Agent, Player>();
 		this.playerAgent = new HashMap<Player, Agent>();
@@ -129,5 +133,9 @@ public class GameState {
 		
 		p.trashFromPlay(FeastCard.getInstance());
 		trashPile.add(FeastCard.getInstance());
+	}
+	
+	public Turn getTurn(){
+		return turn;
 	}
 }

@@ -2,9 +2,11 @@ package controller;
 
 import java.util.ArrayList;
 
-import model.Player;
-import model.Supply;
+import model.OpponentScope;
+import model.PlayerScope;
+import model.SupplyScope;
 import model.Turn;
+import model.TurnScope;
 import model.cards.ChapelCard;
 import model.cards.CopperCard;
 import model.cards.DuchyCard;
@@ -15,27 +17,29 @@ import model.cards.LaboratoryCard;
 import model.cards.MarketCard;
 import model.cards.ProvinceCard;
 import model.cards.SilverCard;
-import model.cards.VillageCard;
 import model.cards.interfaces.Action;
 import model.cards.interfaces.Card;
 import model.cards.interfaces.Treasure;
 import model.cards.interfaces.Victory;
 
-public class Dummy implements Agent{
+public class DummyAI implements Agent{
 
-	Player p;
-	Player o;
-	Supply sup;
+	PlayerScope p;
+	OpponentScope o;
+	SupplyScope sup;
 	boolean hasChapel;
+	TurnScope turn;
 
-	public Dummy(Player p, Player o, Supply sup){
+	public DummyAI(PlayerScope p, OpponentScope o, SupplyScope sup, TurnScope turnScope){
 		this.p = p;
 		this.o = o;
 		this.sup = sup;
 		this.hasChapel = false;
+		this.turn = turnScope;
 	}
 
-	public ArrayList<Action> actionList(int numActions) {
+	public ArrayList<Action> actionList() {
+		int numActions = turn.getNumActions();
 		ArrayList<Card> hand = p.viewHand();
 		ArrayList<Action> actionList = new ArrayList<Action>();
 		int totalActions = numActions;
@@ -65,6 +69,10 @@ public class Dummy implements Agent{
 		return actionList;
 	}
 
+	public ArrayList<Card> buyList() {
+		return this.buyList(turn.getNumBuys(), turn.getCash());
+	}
+	
 	public ArrayList<Card> buyList(int numBuys, int cash) {
 		ArrayList<Card> buyList = new ArrayList<Card>();
 
@@ -96,8 +104,8 @@ public class Dummy implements Agent{
 				&& sup.has(ProvinceCard.getInstance())){
 
 			if(sup.numLeft(ProvinceCard.getInstance()) == 1
-					&& ((p.currentScore+6 < o.currentScore) 
-							|| (p.currentScore+6 == o.currentScore 
+					&& ((p.getScore()+6 < o.getScore()) 
+							|| (p.getScore()+6 == o.getScore() 
 							&& p.getTotalTurns() >= o.getTotalTurns()))){
 				if(sup.has(DuchyCard.getInstance())){
 					buyList.add(DuchyCard.getInstance());
@@ -126,14 +134,12 @@ public class Dummy implements Agent{
 				buyList.add(LaboratoryCard.getInstance());
 			}
 		}else if(cash >= 3){
-			if(p.cards.containsKey(SilverCard.getInstance())
-					&& p.cards.get(SilverCard.getInstance()) >= 3){
-				buyList.add(VillageCard.getInstance());
-			}else if(sup.has(SilverCard.getInstance())){
+			if(sup.has(SilverCard.getInstance())
+					&& p.valueOfDeck() < 9){
 				buyList.add(SilverCard.getInstance());
-			}else if(sup.has(VillageCard.getInstance())){
+			}/*else if(sup.has(VillageCard.getInstance())){
 				buyList.add(VillageCard.getInstance());
-			}
+			}*/
 		}
 		return buyList;
 	}
@@ -151,8 +157,8 @@ public class Dummy implements Agent{
 	}
 
 	public boolean imLosing(){
-		if((p.currentScore < o.currentScore) 
-				|| (p.currentScore == o.currentScore 
+		if((p.getScore() < o.getScore()) 
+				|| (p.getScore() == o.getScore() 
 				&& p.getTotalTurns() >= o.getTotalTurns())){
 			return true;
 		}
@@ -160,23 +166,26 @@ public class Dummy implements Agent{
 	}
 
 	public boolean tieBlock(){
-		if((p.currentScore == o.currentScore+3)
+		if((p.getScore() == o.getScore()+3)
 				&& p.getTotalTurns() <= o.getTotalTurns()){
 			return true;
 		}
 		return false;
 	}
 
-	@Override
+
 	public ArrayList<Card> trashDecisionLE(int num) {
 		ArrayList<Card> ret = new ArrayList<Card>();
 		for(Card c : p.viewHand()){
 			if(ret.size() < num){
 				if(c instanceof CopperCard
-						&& ((p.cards.containsKey(SilverCard.getInstance())
-								&& p.cards.get(SilverCard.getInstance()) >= 2)
-								|| (p.cards.containsKey(GoldCard.getInstance())
-										&& p.cards.get(GoldCard.getInstance()) >= 1))){
+						&& p.valueOfDeck()-p.getDeckContents().get(CopperCard.getInstance()) >= 3){
+					ret.add(c);
+				}else if(c instanceof SilverCard
+						&& p.valueOfDeck()
+						-p.numOf(CopperCard.getInstance())
+						-(2*p.numOf(SilverCard.getInstance())) 
+						>= 9){
 					ret.add(c);
 				}else if(c instanceof EstateCard){
 					ret.add(c);
@@ -221,6 +230,66 @@ public class Dummy implements Agent{
 		if(turn.getNumActions() > 0){
 			return true;
 		}
+		return false;
+	}
+
+	@Override
+	public Card discardForAction() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Card discardForBuy() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<Card> discardForCash() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Treasure trashTreasureFromHand() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Treasure gainTreasureLECost(int cost) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Action throneRoom() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Action gainActionLECost(int cost) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean trashMiningVillage() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean nativeVillage() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean walledVillage() {
+		// TODO Auto-generated method stub
 		return false;
 	}
 

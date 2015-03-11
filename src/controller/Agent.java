@@ -10,8 +10,10 @@ import model.cards.interfaces.Victory;
 
 public interface Agent {
 	
-	public ArrayList<Action> actionList(int numActions);
+	public ArrayList<Action> actionList();
 
+	public ArrayList<Card> buyList();
+	
 	public ArrayList<Card> buyList(int numBuys, int cash);
 
 	public ArrayList<Treasure> treasureList();
@@ -26,6 +28,12 @@ public interface Agent {
 	
 	public ArrayList<Card> discardToDraw();
 	
+	public Card discardForAction();
+	
+	public Card discardForBuy();
+	
+	public ArrayList<Card> discardForCash();
+	
 	public boolean discardDeck();
 	
 	public Card gainLECost(int cost);
@@ -36,5 +44,13 @@ public interface Agent {
 	
 	public Treasure gainTreasureLECost(int cost);
 	
+	public Action gainActionLECost(int cost);
+	
 	public Action throneRoom();
+	
+	public boolean trashMiningVillage();
+	
+	public boolean nativeVillage();
+	
+	public boolean walledVillage();
 }
